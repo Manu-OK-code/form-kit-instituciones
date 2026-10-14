@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { FormBuilder } from '../../src/index';
 
 const FORM_FIELDS = [
+  { nombre: 'informacionGeneral', label: 'Información general del trámite', tipo: 'informativo', columna: 12, orden: 0 },
+  { nombre: 'seccionInstitucion', label: 'Datos de la institución', tipo: 'tituloInformativo', columna: 12, orden: 0.5 },
   { nombre: 'nombre', label: 'Nombre de la institución', tipo: 'texto', requerido: true, holder: 'Ej. Instituto Central', columna: 6, orden: 1 },
   { nombre: 'correo', label: 'Correo de contacto', tipo: 'correo', holder: 'contacto@institucion.gob.gt', columna: 6, orden: 2 },
   { nombre: 'descripcion', label: 'Descripción', tipo: 'textarea', holder: 'Escribe una descripción breve', columna: 12, orden: 3 },
@@ -61,7 +63,7 @@ const FormSection = ({ formProps, advanced, readOnly, notify }) => (
   <section className="playground-fieldset">
     <div className="mb-6 border-b border-slate-100 pb-4">
       <h2 className="text-lg font-semibold text-slate-900">Campos del formulario</h2>
-      <p className="mt-1 text-sm text-slate-500">Incluye tipos estándar y los avanzados cuando están activos.</p>
+      <p className="mt-1 text-sm text-slate-500">Incluye campos editables, informativos y tipos avanzados cuando están activos.</p>
     </div>
     <FormBuilder
       {...formProps}
@@ -91,7 +93,7 @@ const PlaygroundActions = ({ readOnly, notice, onReset }) => (
 
 const PlaygroundFooter = ({ advanced, readOnly }) => (
   <footer className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-200 pt-5 text-xs text-slate-500">
-    <span>Versión local: form-kit 0.1.0</span>
+    <span>Versión local: form-kit 0.3.0</span>
     <span>Avanzados: {advanced ? 'activos' : 'inactivos'}</span>
     <span>Modo: {readOnly ? 'solo lectura' : 'edición'}</span>
   </footer>

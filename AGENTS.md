@@ -47,6 +47,8 @@ apariencia empresarial existentes.
   sans-serif. Las fuentes se cargan desde cada aplicación consumidora.
 - Conservar labels asociados, mensajes de error accesibles y estados disabled.
 - Mantener diseño formal, responsive y coherente entre aplicaciones.
+- Usar la skill UI/UX Pro Max instalada en `.codex/skills/ui-ux-pro-max/` al
+  crear o modificar interfaces, manteniendo la paleta institucional definida.
 
 ## Publicación e instalación
 
