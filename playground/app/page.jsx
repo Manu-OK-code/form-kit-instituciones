@@ -5,8 +5,7 @@ import { useForm } from 'react-hook-form';
 import { FormBuilder } from '../../src/index';
 
 const FORM_FIELDS = [
-  { nombre: 'informacionGeneral', label: 'Información general del trámite', tipo: 'informativo', columna: 12, orden: 0 },
-  { nombre: 'seccionInstitucion', label: 'Datos de la institución', tipo: 'tituloInformativo', columna: 12, orden: 0.5 },
+  { nombre: 'informacionGeneral', label: 'Información general del trámite', tipo: 'informativo', columna: 6, orden: 0 },
   { nombre: 'nombre', label: 'Nombre de la institución', tipo: 'texto', requerido: true, holder: 'Ej. Instituto Central', columna: 6, orden: 1 },
   { nombre: 'correo', label: 'Correo de contacto', tipo: 'correo', holder: 'contacto@institucion.gob.gt', columna: 6, orden: 2 },
   { nombre: 'descripcion', label: 'Descripción', tipo: 'textarea', holder: 'Escribe una descripción breve', columna: 12, orden: 3 },
@@ -29,6 +28,8 @@ const FORM_FIELDS = [
   { nombre: 'soloDashboard', label: 'Campo solo visible en dashboard', tipo: 'texto', holder: 'Solo en modo detalle', soloDashboard: true, columna: 6, orden: 20 },
   { nombre: 'nombreInterno', label: 'Identificador interno (slug)', tipo: 'textoInterno', holder: 'identificador_interno', columna: 6, orden: 21 },
   { nombre: 'rangoFecha', label: 'Filtro por rango de fechas', tipo: 'rangoFechas', columna: 12, orden: 22 },
+  { nombre: 'seccionInstitucion', label: 'Datos de la institución', tipo: 'tituloInformativo', columna: 6, orden: 23 },
+  { nombre: 'contactoInstitucion', label: 'Contacto de la institución', tipo: 'texto', holder: 'Ej. Ana Pérez', columna: 6, orden: 24 },
 ];
 
 const INITIAL_VALUES = {
