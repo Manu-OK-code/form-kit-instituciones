@@ -7,6 +7,8 @@ import ColorInput from './ColorInput';
 import DynamicListInput from './DynamicListInput';
 import EmailInput from './EmailInput';
 import EstadoBadgeInput from './EstadoBadgeInput';
+import InformationalInput from './InformationalInput';
+import InformationalTitleInput from './InformationalTitleInput';
 import SelectInput from './SelectInput';
 import TextAreaInput from './TextAreaInput';
 import TextInput from './TextInput';
@@ -90,6 +92,8 @@ const renderField = (field, sharedProps, advanced) => {
     case 'select': return <SelectInput {...commonProps} />;
     case 'checkbox': return <CheckboxInput {...commonProps} />;
     case 'estado': return <EstadoBadgeInput config={field} value={field.valor} />;
+    case 'informativo': return <InformationalInput config={field} />;
+    case 'tituloInformativo': return <InformationalTitleInput config={field} />;
     case 'listaDinamica': return <DynamicListInput {...commonProps} />;
     case 'color': return <ColorInput {...commonProps} />;
     case 'hipervinculo': return <HyperlinkInput {...commonProps} />;

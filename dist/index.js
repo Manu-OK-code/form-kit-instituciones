@@ -1,6 +1,6 @@
 // src/components/inputs/FormBuilder.js
 import { useState } from "react";
-import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { InformationCircleIcon as InformationCircleIcon3 } from "@heroicons/react/24/outline";
 
 // src/utils/buildRules.js
 var buildRules = (field, options = {}) => {
@@ -232,15 +232,49 @@ var EstadoBadgeInput = ({ config, value }) => /* @__PURE__ */ jsxs5("div", { cla
 ] });
 var EstadoBadgeInput_default = EstadoBadgeInput;
 
+// src/components/inputs/InformationalInput.js
+import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+var InformationalInput = ({ config }) => /* @__PURE__ */ jsxs6(
+  "div",
+  {
+    role: "note",
+    "aria-label": config.label || "Informaci\xF3n",
+    className: "flex min-h-12 items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-[#0A3A5F]",
+    children: [
+      /* @__PURE__ */ jsx6(InformationCircleIcon, { "aria-hidden": "true", className: "h-5 w-5 shrink-0 text-[#0A3A5F]" }),
+      /* @__PURE__ */ jsx6("span", { className: "text-sm font-medium leading-5 letraTipoRegular", children: config.label || "Informaci\xF3n" })
+    ]
+  }
+);
+var InformationalInput_default = InformationalInput;
+
+// src/components/inputs/InformationalTitleInput.js
+import { InformationCircleIcon as InformationCircleIcon2 } from "@heroicons/react/24/outline";
+import { jsx as jsx7, jsxs as jsxs7 } from "react/jsx-runtime";
+var InformationalTitleInput = ({ config }) => /* @__PURE__ */ jsxs7(
+  "div",
+  {
+    role: "note",
+    "aria-label": config.label || "T\xEDtulo informativo",
+    className: "flex items-center gap-2 text-[#0A3A5F]",
+    children: [
+      /* @__PURE__ */ jsx7(InformationCircleIcon2, { "aria-hidden": "true", className: "h-5 w-5 shrink-0" }),
+      /* @__PURE__ */ jsx7("h3", { className: "text-base font-semibold leading-6 letraTipoRegular", children: config.label || "T\xEDtulo informativo" })
+    ]
+  }
+);
+var InformationalTitleInput_default = InformationalTitleInput;
+
 // src/components/inputs/SelectInput.js
 import { ExclamationCircleIcon as ExclamationCircleIcon4 } from "@heroicons/react/24/outline";
-import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
+import { jsx as jsx8, jsxs as jsxs8 } from "react/jsx-runtime";
 var SelectInput = ({ config, register, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs6("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx6("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs6("div", { className: "relative", children: [
-      /* @__PURE__ */ jsxs6(
+  return /* @__PURE__ */ jsxs8("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx8("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs8("div", { className: "relative", children: [
+      /* @__PURE__ */ jsxs8(
         "select",
         {
           id: config.nombre,
@@ -260,27 +294,27 @@ var SelectInput = ({ config, register, errors, disabled, labelColor, inputTextCo
             letraTipoLight
           `,
           children: [
-            /* @__PURE__ */ jsx6("option", { value: "", children: "Seleccione..." }),
-            config.opciones?.map((op) => /* @__PURE__ */ jsx6("option", { value: op.value, children: op.label }, op.value))
+            /* @__PURE__ */ jsx8("option", { value: "", children: "Seleccione..." }),
+            config.opciones?.map((op) => /* @__PURE__ */ jsx8("option", { value: op.value, children: op.label }, op.value))
           ]
         }
       ),
-      hasError && /* @__PURE__ */ jsx6(ExclamationCircleIcon4, { "aria-hidden": "true", className: "absolute right-8 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx8(ExclamationCircleIcon4, { "aria-hidden": "true", className: "absolute right-8 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    hasError && /* @__PURE__ */ jsx6("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx8("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var SelectInput_default = SelectInput;
 
 // src/components/inputs/TextAreaInput.js
 import { ExclamationCircleIcon as ExclamationCircleIcon5 } from "@heroicons/react/24/outline";
-import { jsx as jsx7, jsxs as jsxs7 } from "react/jsx-runtime";
+import { jsx as jsx9, jsxs as jsxs9 } from "react/jsx-runtime";
 var TextAreaInput = ({ config, register, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs7("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx7("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs7("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx7(
+  return /* @__PURE__ */ jsxs9("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx9("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs9("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx9(
         "textarea",
         {
           id: config.nombre,
@@ -303,22 +337,22 @@ var TextAreaInput = ({ config, register, errors, disabled, labelColor, inputText
           `
         }
       ),
-      hasError && /* @__PURE__ */ jsx7(ExclamationCircleIcon5, { "aria-hidden": "true", className: "absolute right-2 top-3 h-6 w-6 text-red-500" })
+      hasError && /* @__PURE__ */ jsx9(ExclamationCircleIcon5, { "aria-hidden": "true", className: "absolute right-2 top-3 h-6 w-6 text-red-500" })
     ] }),
-    hasError && /* @__PURE__ */ jsx7("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx9("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var TextAreaInput_default = TextAreaInput;
 
 // src/components/inputs/TextInput.js
 import { ExclamationCircleIcon as ExclamationCircleIcon6 } from "@heroicons/react/24/outline";
-import { jsx as jsx8, jsxs as jsxs8 } from "react/jsx-runtime";
+import { jsx as jsx10, jsxs as jsxs10 } from "react/jsx-runtime";
 var TextInput = ({ config, register, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs8("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx8("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs8("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx8(
+  return /* @__PURE__ */ jsxs10("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx10("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx10(
         "input",
         {
           id: config.nombre,
@@ -341,9 +375,9 @@ var TextInput = ({ config, register, errors, disabled, labelColor, inputTextColo
           `
         }
       ),
-      hasError && /* @__PURE__ */ jsx8(ExclamationCircleIcon6, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500" })
+      hasError && /* @__PURE__ */ jsx10(ExclamationCircleIcon6, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500" })
     ] }),
-    hasError && /* @__PURE__ */ jsx8("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 mt-1 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx10("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 mt-1 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var TextInput_default = TextInput;
@@ -351,17 +385,17 @@ var TextInput_default = TextInput;
 // src/components/inputs/HyperlinkInput.js
 import { useWatch } from "react-hook-form";
 import { ExclamationCircleIcon as ExclamationCircleIcon7 } from "@heroicons/react/24/outline";
-import { jsx as jsx9, jsxs as jsxs9 } from "react/jsx-runtime";
+import { jsx as jsx11, jsxs as jsxs11 } from "react/jsx-runtime";
 var HyperlinkInput = ({ config, register, control, errors, disabled }) => {
   const linkValue = useWatch({
     control,
     name: `${config.nombre}.url`
   });
   const secciones = config.secciones || [];
-  return /* @__PURE__ */ jsxs9("div", { className: "flex flex-col gap-3", children: [
-    /* @__PURE__ */ jsx9("label", { htmlFor: `${config.nombre}.label`, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs9("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx9(
+  return /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-3", children: [
+    /* @__PURE__ */ jsx11("label", { htmlFor: `${config.nombre}.label`, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs11("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx11(
         "input",
         {
           id: `${config.nombre}.label`,
@@ -378,10 +412,10 @@ var HyperlinkInput = ({ config, register, control, errors, disabled }) => {
         `
         }
       ),
-      errors?.[config.nombre]?.label && /* @__PURE__ */ jsx9(ExclamationCircleIcon7, { "aria-hidden": "true", className: "absolute right-2 top-2 h-5 w-5 text-[#EF4444]" })
+      errors?.[config.nombre]?.label && /* @__PURE__ */ jsx11(ExclamationCircleIcon7, { "aria-hidden": "true", className: "absolute right-2 top-2 h-5 w-5 text-[#EF4444]" })
     ] }),
-    /* @__PURE__ */ jsxs9("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx9(
+    /* @__PURE__ */ jsxs11("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx11(
         "input",
         {
           id: `${config.nombre}.url`,
@@ -398,9 +432,9 @@ var HyperlinkInput = ({ config, register, control, errors, disabled }) => {
         `
         }
       ),
-      errors?.[config.nombre]?.url && /* @__PURE__ */ jsx9(ExclamationCircleIcon7, { "aria-hidden": "true", className: "absolute right-2 top-2 h-5 w-5 text-[#EF4444]" })
+      errors?.[config.nombre]?.url && /* @__PURE__ */ jsx11(ExclamationCircleIcon7, { "aria-hidden": "true", className: "absolute right-2 top-2 h-5 w-5 text-[#EF4444]" })
     ] }),
-    linkValue === "#" && /* @__PURE__ */ jsxs9(
+    linkValue === "#" && /* @__PURE__ */ jsxs11(
       "select",
       {
         id: `${config.nombre}.section`,
@@ -408,26 +442,26 @@ var HyperlinkInput = ({ config, register, control, errors, disabled }) => {
         ...register(`${config.nombre}.section`),
         className: "px-3 py-2 rounded-lg border text-sm bg-white border-gray-300",
         children: [
-          /* @__PURE__ */ jsx9("option", { value: "", children: "Seleccionar secci\xF3n" }),
-          secciones.map((sec) => /* @__PURE__ */ jsx9("option", { value: sec, children: sec }, sec))
+          /* @__PURE__ */ jsx11("option", { value: "", children: "Seleccionar secci\xF3n" }),
+          secciones.map((sec) => /* @__PURE__ */ jsx11("option", { value: sec, children: sec }, sec))
         ]
       }
     ),
-    errors?.[config.nombre]?.label && /* @__PURE__ */ jsx9("span", { id: `${config.nombre}-label-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].label.message }),
-    errors?.[config.nombre]?.url && /* @__PURE__ */ jsx9("span", { id: `${config.nombre}-url-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].url.message })
+    errors?.[config.nombre]?.label && /* @__PURE__ */ jsx11("span", { id: `${config.nombre}-label-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].label.message }),
+    errors?.[config.nombre]?.url && /* @__PURE__ */ jsx11("span", { id: `${config.nombre}-url-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].url.message })
   ] });
 };
 var HyperlinkInput_default = HyperlinkInput;
 
 // src/components/inputs/NumberInput.js
 import { ExclamationCircleIcon as ExclamationCircleIcon8 } from "@heroicons/react/24/outline";
-import { jsx as jsx10, jsxs as jsxs10 } from "react/jsx-runtime";
+import { jsx as jsx12, jsxs as jsxs12 } from "react/jsx-runtime";
 var NumberInput = ({ config, register, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs10("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx10("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs10("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx10(
+  return /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx12("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs12("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx12(
         "input",
         {
           id: config.nombre,
@@ -455,9 +489,9 @@ var NumberInput = ({ config, register, errors, disabled, labelColor, inputTextCo
           `
         }
       ),
-      hasError && /* @__PURE__ */ jsx10(ExclamationCircleIcon8, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500" })
+      hasError && /* @__PURE__ */ jsx12(ExclamationCircleIcon8, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500" })
     ] }),
-    hasError && /* @__PURE__ */ jsx10("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx12("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var NumberInput_default = NumberInput;
@@ -466,11 +500,11 @@ var NumberInput_default = NumberInput;
 import { Controller } from "react-hook-form";
 import Select from "react-select";
 import { ExclamationCircleIcon as ExclamationCircleIcon9 } from "@heroicons/react/24/outline";
-import { jsx as jsx11, jsxs as jsxs11 } from "react/jsx-runtime";
-var SelectSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ */ jsxs11("div", { className: "flex flex-col gap-1 letraTipoLight", children: [
-  /* @__PURE__ */ jsx11("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
-  /* @__PURE__ */ jsxs11("div", { className: "relative", children: [
-    /* @__PURE__ */ jsx11(
+import { jsx as jsx13, jsxs as jsxs13 } from "react/jsx-runtime";
+var SelectSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ */ jsxs13("div", { className: "flex flex-col gap-1 letraTipoLight", children: [
+  /* @__PURE__ */ jsx13("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
+  /* @__PURE__ */ jsxs13("div", { className: "relative", children: [
+    /* @__PURE__ */ jsx13(
       Controller,
       {
         name: config.nombre,
@@ -478,7 +512,7 @@ var SelectSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ 
         rules: {
           required: config.requerido ? "Este campo es obligatorio" : false
         },
-        render: ({ field }) => /* @__PURE__ */ jsx11(
+        render: ({ field }) => /* @__PURE__ */ jsx13(
           Select,
           {
             inputId: config.nombre,
@@ -495,9 +529,9 @@ var SelectSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ 
         )
       }
     ),
-    errors?.[config.nombre] && /* @__PURE__ */ jsx11(ExclamationCircleIcon9, { "aria-hidden": "true", className: "absolute right-10 top-2 h-5 w-5 text-[#EF4444]" })
+    errors?.[config.nombre] && /* @__PURE__ */ jsx13(ExclamationCircleIcon9, { "aria-hidden": "true", className: "absolute right-10 top-2 h-5 w-5 text-[#EF4444]" })
   ] }),
-  errors[config.nombre] && /* @__PURE__ */ jsx11("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+  errors[config.nombre] && /* @__PURE__ */ jsx13("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
 ] });
 var SelectSearchInput_default = SelectSearchInput;
 
@@ -505,14 +539,14 @@ var SelectSearchInput_default = SelectSearchInput;
 import { Controller as Controller2 } from "react-hook-form";
 import Select2 from "react-select";
 import { ExclamationCircleIcon as ExclamationCircleIcon10 } from "@heroicons/react/24/outline";
-import { jsx as jsx12, jsxs as jsxs12 } from "react/jsx-runtime";
-var SelectMultiSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ */ jsxs12("div", { className: "flex flex-col gap-1", children: [
-  /* @__PURE__ */ jsxs12("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600 letraTipoLight", children: [
+import { jsx as jsx14, jsxs as jsxs14 } from "react/jsx-runtime";
+var SelectMultiSearchInput = ({ config, control, errors, disabled }) => /* @__PURE__ */ jsxs14("div", { className: "flex flex-col gap-1", children: [
+  /* @__PURE__ */ jsxs14("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600 letraTipoLight", children: [
     config.customLabel || config.label,
     " "
   ] }),
-  /* @__PURE__ */ jsxs12("div", { className: "relative", children: [
-    /* @__PURE__ */ jsx12(
+  /* @__PURE__ */ jsxs14("div", { className: "relative", children: [
+    /* @__PURE__ */ jsx14(
       Controller2,
       {
         name: config.nombre,
@@ -520,7 +554,7 @@ var SelectMultiSearchInput = ({ config, control, errors, disabled }) => /* @__PU
         rules: {
           required: config.requerido ? "Este campo es obligatorio" : false
         },
-        render: ({ field }) => /* @__PURE__ */ jsx12(
+        render: ({ field }) => /* @__PURE__ */ jsx14(
           Select2,
           {
             inputId: config.nombre,
@@ -537,9 +571,9 @@ var SelectMultiSearchInput = ({ config, control, errors, disabled }) => /* @__PU
         )
       }
     ),
-    errors?.[config.nombre] && /* @__PURE__ */ jsx12(ExclamationCircleIcon10, { "aria-hidden": "true", className: "absolute right-10 top-2 h-5 w-5 text-[#EF4444]" })
+    errors?.[config.nombre] && /* @__PURE__ */ jsx14(ExclamationCircleIcon10, { "aria-hidden": "true", className: "absolute right-10 top-2 h-5 w-5 text-[#EF4444]" })
   ] }),
-  errors[config.nombre] && /* @__PURE__ */ jsx12("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].message })
+  errors[config.nombre] && /* @__PURE__ */ jsx14("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].message })
 ] });
 var SelectMultiSearchInput_default = SelectMultiSearchInput;
 
@@ -553,7 +587,7 @@ var MAX_FILES_IN_ZONE = 3;
 var ALLOWED_EXTENSIONS = ["pdf", "png", "jpg", "jpeg"];
 
 // src/components/inputs/FileInput.js
-import { jsx as jsx13, jsxs as jsxs13 } from "react/jsx-runtime";
+import { jsx as jsx15, jsxs as jsxs15 } from "react/jsx-runtime";
 var FileInput = ({ config, control, errors, disabled, notify = () => {
 } }) => {
   const hasError = !!errors?.[config.nombre];
@@ -579,16 +613,16 @@ var FileInput = ({ config, control, errors, disabled, notify = () => {
     }
     return file;
   };
-  return /* @__PURE__ */ jsxs13("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx13("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs13("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx13(
+  return /* @__PURE__ */ jsxs15("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx15("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs15("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx15(
         Controller3,
         {
           name: config.nombre,
           control,
           rules: buildRules(config),
-          render: ({ field: { onChange, ref } }) => /* @__PURE__ */ jsx13(
+          render: ({ field: { onChange, ref } }) => /* @__PURE__ */ jsx15(
             "input",
             {
               id: config.nombre,
@@ -618,25 +652,25 @@ var FileInput = ({ config, control, errors, disabled, notify = () => {
           )
         }
       ),
-      hasError && /* @__PURE__ */ jsx13(ExclamationCircleIcon11, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx15(ExclamationCircleIcon11, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    /* @__PURE__ */ jsxs13("div", { className: "text-xs text-gray-500", children: [
+    /* @__PURE__ */ jsxs15("div", { className: "text-xs text-gray-500", children: [
       "M\xE1ximo ",
       MAX_FILE_SIZE_MB,
       " MB por archivo"
     ] }),
-    config.permitidos?.length > 0 && /* @__PURE__ */ jsxs13("div", { className: "text-xs text-gray-500", children: [
+    config.permitidos?.length > 0 && /* @__PURE__ */ jsxs15("div", { className: "text-xs text-gray-500", children: [
       "Archivos permitidos: ",
       config.permitidos.map((p) => p.value.toUpperCase()).join(", ")
     ] }),
-    hasError && /* @__PURE__ */ jsx13("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx15("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var FileInput_default = FileInput;
 
 // src/components/inputs/RuleBuilder.js
 import { useFieldArray as useFieldArray2 } from "react-hook-form";
-import { jsx as jsx14, jsxs as jsxs14 } from "react/jsx-runtime";
+import { jsx as jsx16, jsxs as jsxs16 } from "react/jsx-runtime";
 var operadoresDisponibles = [
   { label: "Igual a", value: "equals" },
   { label: "Distinto de", value: "notEquals" },
@@ -650,37 +684,37 @@ var RuleGroup = ({ title, name, control, camposDisponibles }) => {
     control,
     name
   });
-  return /* @__PURE__ */ jsxs14("div", { className: "border rounded-xl p-4 space-y-4", children: [
-    /* @__PURE__ */ jsx14("h3", { className: "font-semibold", children: title }),
-    fields.map((field, index) => /* @__PURE__ */ jsxs14("div", { className: "grid grid-cols-12 gap-3 items-end", children: [
-      /* @__PURE__ */ jsxs14("div", { className: "col-span-4", children: [
-        /* @__PURE__ */ jsx14("label", { className: "text-xs", children: "Campo" }),
-        /* @__PURE__ */ jsxs14(
+  return /* @__PURE__ */ jsxs16("div", { className: "border rounded-xl p-4 space-y-4", children: [
+    /* @__PURE__ */ jsx16("h3", { className: "font-semibold", children: title }),
+    fields.map((field, index) => /* @__PURE__ */ jsxs16("div", { className: "grid grid-cols-12 gap-3 items-end", children: [
+      /* @__PURE__ */ jsxs16("div", { className: "col-span-4", children: [
+        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Campo" }),
+        /* @__PURE__ */ jsxs16(
           "select",
           {
             ...control.register(`${name}.${index}.campo`),
             className: "w-full border rounded-lg px-2 py-1",
             children: [
-              /* @__PURE__ */ jsx14("option", { value: "", children: "Seleccionar" }),
-              camposDisponibles.map((campo) => /* @__PURE__ */ jsx14("option", { value: campo.nombre, children: campo.label }, campo.nombre))
+              /* @__PURE__ */ jsx16("option", { value: "", children: "Seleccionar" }),
+              camposDisponibles.map((campo) => /* @__PURE__ */ jsx16("option", { value: campo.nombre, children: campo.label }, campo.nombre))
             ]
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs14("div", { className: "col-span-4", children: [
-        /* @__PURE__ */ jsx14("label", { className: "text-xs", children: "Operador" }),
-        /* @__PURE__ */ jsx14(
+      /* @__PURE__ */ jsxs16("div", { className: "col-span-4", children: [
+        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Operador" }),
+        /* @__PURE__ */ jsx16(
           "select",
           {
             ...control.register(`${name}.${index}.operador`),
             className: "w-full border rounded-lg px-2 py-1",
-            children: operadoresDisponibles.map((op) => /* @__PURE__ */ jsx14("option", { value: op.value, children: op.label }, op.value))
+            children: operadoresDisponibles.map((op) => /* @__PURE__ */ jsx16("option", { value: op.value, children: op.label }, op.value))
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs14("div", { className: "col-span-3", children: [
-        /* @__PURE__ */ jsx14("label", { className: "text-xs", children: "Valor" }),
-        /* @__PURE__ */ jsx14(
+      /* @__PURE__ */ jsxs16("div", { className: "col-span-3", children: [
+        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Valor" }),
+        /* @__PURE__ */ jsx16(
           "input",
           {
             ...control.register(`${name}.${index}.valor`),
@@ -688,7 +722,7 @@ var RuleGroup = ({ title, name, control, camposDisponibles }) => {
           }
         )
       ] }),
-      /* @__PURE__ */ jsx14("div", { className: "col-span-1", children: /* @__PURE__ */ jsx14(
+      /* @__PURE__ */ jsx16("div", { className: "col-span-1", children: /* @__PURE__ */ jsx16(
         "button",
         {
           type: "button",
@@ -698,7 +732,7 @@ var RuleGroup = ({ title, name, control, camposDisponibles }) => {
         }
       ) })
     ] }, field.id)),
-    /* @__PURE__ */ jsx14(
+    /* @__PURE__ */ jsx16(
       "button",
       {
         type: "button",
@@ -709,8 +743,8 @@ var RuleGroup = ({ title, name, control, camposDisponibles }) => {
     )
   ] });
 };
-var RuleBuilder = ({ control, camposDisponibles }) => /* @__PURE__ */ jsxs14("div", { className: "space-y-6", children: [
-  /* @__PURE__ */ jsx14(
+var RuleBuilder = ({ control, camposDisponibles }) => /* @__PURE__ */ jsxs16("div", { className: "space-y-6", children: [
+  /* @__PURE__ */ jsx16(
     RuleGroup,
     {
       title: "Reglas AND (todas deben cumplirse)",
@@ -719,7 +753,7 @@ var RuleBuilder = ({ control, camposDisponibles }) => /* @__PURE__ */ jsxs14("di
       camposDisponibles
     }
   ),
-  /* @__PURE__ */ jsx14(
+  /* @__PURE__ */ jsx16(
     RuleGroup,
     {
       title: "Reglas OR (al menos una debe cumplirse)",
@@ -734,7 +768,7 @@ var RuleBuilder_default = RuleBuilder;
 // src/components/inputs/DynamicObjectListInput.js
 import { useFieldArray as useFieldArray3 } from "react-hook-form";
 import { TrashIcon as TrashIcon2, PlusIcon as PlusIcon2 } from "@heroicons/react/24/outline";
-import { jsx as jsx15, jsxs as jsxs15 } from "react/jsx-runtime";
+import { jsx as jsx17, jsxs as jsxs17 } from "react/jsx-runtime";
 var DynamicObjectListInput = ({ config, register, control, disabled }) => {
   const { fields, append, remove } = useFieldArray3({
     control,
@@ -744,7 +778,7 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
     const fieldName = `${config.nombre}.${index}.${campo.nombre}`;
     switch (campo.tipo) {
       case "texto":
-        return /* @__PURE__ */ jsx15(
+        return /* @__PURE__ */ jsx17(
           "input",
           {
             type: "text",
@@ -754,7 +788,7 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
           }
         );
       case "numero":
-        return /* @__PURE__ */ jsx15(
+        return /* @__PURE__ */ jsx17(
           "input",
           {
             type: "number",
@@ -764,15 +798,15 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
           }
         );
       case "select":
-        return /* @__PURE__ */ jsxs15(
+        return /* @__PURE__ */ jsxs17(
           "select",
           {
             disabled,
             ...register(fieldName, { required: campo.requerido }),
             className: "w-full px-2 py-1 border rounded-md text-sm border-gray-300",
             children: [
-              /* @__PURE__ */ jsx15("option", { value: "", children: "Seleccione" }),
-              campo.opciones?.map((op) => /* @__PURE__ */ jsx15("option", { value: op.value, children: op.label }, op.value))
+              /* @__PURE__ */ jsx17("option", { value: "", children: "Seleccione" }),
+              campo.opciones?.map((op) => /* @__PURE__ */ jsx17("option", { value: op.value, children: op.label }, op.value))
             ]
           }
         );
@@ -787,28 +821,28 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
     });
     return obj;
   };
-  return /* @__PURE__ */ jsxs15("div", { className: "flex flex-col gap-4", children: [
-    /* @__PURE__ */ jsx15("label", { className: "text-sm font-medium text-gray-700", children: config.label }),
-    /* @__PURE__ */ jsx15("div", { className: "border rounded-lg overflow-hidden", children: /* @__PURE__ */ jsxs15("table", { className: "w-full text-sm", children: [
-      /* @__PURE__ */ jsx15("thead", { className: "bg-gray-100 text-gray-600", children: /* @__PURE__ */ jsxs15("tr", { children: [
-        /* @__PURE__ */ jsx15("th", { className: "px-4 py-2 w-10", children: "#" }),
-        config.campos.map((campo) => /* @__PURE__ */ jsx15("th", { className: "px-4 py-2 text-left", children: campo.label }, campo.nombre)),
-        /* @__PURE__ */ jsx15("th", { className: "px-4 py-2 text-right w-16", children: "Acci\xF3n" })
+  return /* @__PURE__ */ jsxs17("div", { className: "flex flex-col gap-4", children: [
+    /* @__PURE__ */ jsx17("label", { className: "text-sm font-medium text-gray-700", children: config.label }),
+    /* @__PURE__ */ jsx17("div", { className: "border rounded-lg overflow-hidden", children: /* @__PURE__ */ jsxs17("table", { className: "w-full text-sm", children: [
+      /* @__PURE__ */ jsx17("thead", { className: "bg-gray-100 text-gray-600", children: /* @__PURE__ */ jsxs17("tr", { children: [
+        /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 w-10", children: "#" }),
+        config.campos.map((campo) => /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 text-left", children: campo.label }, campo.nombre)),
+        /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 text-right w-16", children: "Acci\xF3n" })
       ] }) }),
-      /* @__PURE__ */ jsx15("tbody", { children: fields.length === 0 ? /* @__PURE__ */ jsx15("tr", { children: /* @__PURE__ */ jsx15("td", { colSpan: config.campos.length + 2, className: "text-center py-6 text-gray-400", children: "No hay registros" }) }) : fields.map((item, index) => /* @__PURE__ */ jsxs15("tr", { className: "border-t", children: [
-        /* @__PURE__ */ jsx15("td", { className: "px-4 py-2", children: index + 1 }),
-        config.campos.map((campo) => /* @__PURE__ */ jsx15("td", { className: "px-4 py-2", children: renderInput(campo, index) }, campo.nombre)),
-        /* @__PURE__ */ jsx15("td", { className: "px-4 py-2 text-right", children: !disabled && /* @__PURE__ */ jsx15("button", { type: "button", onClick: () => remove(index), className: "text-red-500", children: /* @__PURE__ */ jsx15(TrashIcon2, { className: "w-5 h-5 inline" }) }) })
+      /* @__PURE__ */ jsx17("tbody", { children: fields.length === 0 ? /* @__PURE__ */ jsx17("tr", { children: /* @__PURE__ */ jsx17("td", { colSpan: config.campos.length + 2, className: "text-center py-6 text-gray-400", children: "No hay registros" }) }) : fields.map((item, index) => /* @__PURE__ */ jsxs17("tr", { className: "border-t", children: [
+        /* @__PURE__ */ jsx17("td", { className: "px-4 py-2", children: index + 1 }),
+        config.campos.map((campo) => /* @__PURE__ */ jsx17("td", { className: "px-4 py-2", children: renderInput(campo, index) }, campo.nombre)),
+        /* @__PURE__ */ jsx17("td", { className: "px-4 py-2 text-right", children: !disabled && /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => remove(index), className: "text-red-500", children: /* @__PURE__ */ jsx17(TrashIcon2, { className: "w-5 h-5 inline" }) }) })
       ] }, item.id)) })
     ] }) }),
-    !disabled && /* @__PURE__ */ jsxs15(
+    !disabled && /* @__PURE__ */ jsxs17(
       "button",
       {
         type: "button",
         onClick: () => append(getDefaultObject()),
         className: "flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm w-fit",
         children: [
-          /* @__PURE__ */ jsx15(PlusIcon2, { className: "w-4 h-4" }),
+          /* @__PURE__ */ jsx17(PlusIcon2, { className: "w-4 h-4" }),
           "Agregar registro"
         ]
       }
@@ -824,14 +858,14 @@ import { registerLocale } from "react-datepicker";
 import { ExclamationCircleIcon as ExclamationCircleIcon12 } from "@heroicons/react/24/outline";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx16, jsxs as jsxs16 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs18 } from "react/jsx-runtime";
 registerLocale("es", es);
 var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs16("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx16("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs16("div", { className: "relative w-full", children: [
-      /* @__PURE__ */ jsx16(
+  return /* @__PURE__ */ jsxs18("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx18("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs18("div", { className: "relative w-full", children: [
+      /* @__PURE__ */ jsx18(
         Controller4,
         {
           control,
@@ -839,7 +873,7 @@ var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColo
           rules: {
             required: config.requerido ? "Este campo es requerido" : false
           },
-          render: ({ field }) => /* @__PURE__ */ jsx16(
+          render: ({ field }) => /* @__PURE__ */ jsx18(
             DatePicker,
             {
               locale: "es",
@@ -876,9 +910,9 @@ var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColo
           )
         }
       ),
-      hasError && /* @__PURE__ */ jsx16(ExclamationCircleIcon12, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx18(ExclamationCircleIcon12, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    hasError && /* @__PURE__ */ jsx16("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx18("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var FechaInput_default = FechaInput;
@@ -887,7 +921,7 @@ var FechaInput_default = FechaInput;
 import { useRef } from "react";
 import { XMarkIcon, DocumentIcon } from "@heroicons/react/24/outline";
 import { ExclamationCircleIcon as ExclamationCircleIcon13 } from "@heroicons/react/24/outline";
-import { jsx as jsx17, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs19 } from "react/jsx-runtime";
 var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = () => {
 } }) => {
   const inputRef = useRef(null);
@@ -968,9 +1002,9 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
       return files2.length > 0 || "Debe adjuntar al menos un archivo";
     }
   });
-  return /* @__PURE__ */ jsxs17("div", { className: "flex flex-col gap-3 w-full", children: [
-    /* @__PURE__ */ jsx17("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs17(
+  return /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-3 w-full", children: [
+    /* @__PURE__ */ jsx19("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs19(
       "div",
       {
         onClick: openFileSelector,
@@ -982,7 +1016,7 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
           ${errors?.[config.nombre] ? "border-red-500" : "border-gray-300"}
         `,
         children: [
-          /* @__PURE__ */ jsx17(
+          /* @__PURE__ */ jsx19(
             "input",
             {
               id: config.nombre,
@@ -1001,39 +1035,39 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
               onChange: handleFiles
             }
           ),
-          /* @__PURE__ */ jsx17("p", { className: "text-sm text-blue-600 font-medium", children: "Arrastra archivos aqu\xED o haz clic para subir" }),
-          /* @__PURE__ */ jsxs17("p", { className: "text-xs text-gray-500 mt-1", children: [
+          /* @__PURE__ */ jsx19("p", { className: "text-sm text-blue-600 font-medium", children: "Arrastra archivos aqu\xED o haz clic para subir" }),
+          /* @__PURE__ */ jsxs19("p", { className: "text-xs text-gray-500 mt-1", children: [
             "M\xE1ximo ",
             MAX_FILES_IN_ZONE,
             " archivos \u2022 ",
             MAX_FILE_SIZE_MB,
             " MB por archivo"
           ] }),
-          /* @__PURE__ */ jsxs17("p", { className: "text-xs text-gray-500 mt-1", children: [
+          /* @__PURE__ */ jsxs19("p", { className: "text-xs text-gray-500 mt-1", children: [
             "Archivos permitidos: ",
             config.permitidos?.map((p) => p.value.toUpperCase()).join(", ")
           ] })
         ]
       }
     ),
-    fileList.length > 0 && /* @__PURE__ */ jsx17("div", { className: "flex flex-col gap-2", children: fileList.map((file, index) => {
+    fileList.length > 0 && /* @__PURE__ */ jsx19("div", { className: "flex flex-col gap-2", children: fileList.map((file, index) => {
       const size = getFileSize(file);
-      return /* @__PURE__ */ jsxs17("div", { className: "flex items-center justify-between bg-gray-50 border rounded-lg px-3 py-2", children: [
-        /* @__PURE__ */ jsxs17("div", { className: "flex items-center gap-2 overflow-hidden", children: [
-          /* @__PURE__ */ jsx17(DocumentIcon, { className: "w-5 h-5 text-gray-500" }),
-          /* @__PURE__ */ jsx17("span", { className: "text-sm truncate max-w-[220px]", children: getFileName(file, index) }),
-          size && /* @__PURE__ */ jsxs17("span", { className: "text-xs text-gray-400", children: [
+      return /* @__PURE__ */ jsxs19("div", { className: "flex items-center justify-between bg-gray-50 border rounded-lg px-3 py-2", children: [
+        /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-2 overflow-hidden", children: [
+          /* @__PURE__ */ jsx19(DocumentIcon, { className: "w-5 h-5 text-gray-500" }),
+          /* @__PURE__ */ jsx19("span", { className: "text-sm truncate max-w-[220px]", children: getFileName(file, index) }),
+          size && /* @__PURE__ */ jsxs19("span", { className: "text-xs text-gray-400", children: [
             "(",
             size,
             " MB)"
           ] })
         ] }),
-        !disabled && /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => removeFile(index), className: "text-red-500 hover:text-red-700", children: /* @__PURE__ */ jsx17(XMarkIcon, { className: "w-4 h-4" }) })
+        !disabled && /* @__PURE__ */ jsx19("button", { type: "button", onClick: () => removeFile(index), className: "text-red-500 hover:text-red-700", children: /* @__PURE__ */ jsx19(XMarkIcon, { className: "w-4 h-4" }) })
       ] }, index);
     }) }),
-    errors?.[config.nombre] && /* @__PURE__ */ jsxs17("div", { className: "flex items-center gap-1 text-[#EF4444]", children: [
-      /* @__PURE__ */ jsx17(ExclamationCircleIcon13, { "aria-hidden": "true", className: "h-5 w-5" }),
-      /* @__PURE__ */ jsx17("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs letraTipoRegular", children: errors[config.nombre].message })
+    errors?.[config.nombre] && /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-1 text-[#EF4444]", children: [
+      /* @__PURE__ */ jsx19(ExclamationCircleIcon13, { "aria-hidden": "true", className: "h-5 w-5" }),
+      /* @__PURE__ */ jsx19("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs letraTipoRegular", children: errors[config.nombre].message })
     ] })
   ] });
 };
@@ -1046,14 +1080,14 @@ import { registerLocale as registerLocale2 } from "react-datepicker";
 import { ExclamationCircleIcon as ExclamationCircleIcon14 } from "@heroicons/react/24/outline";
 import es2 from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx18, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx20, jsxs as jsxs20 } from "react/jsx-runtime";
 registerLocale2("es", es2);
 var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs18("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx18("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs18("div", { className: "relative w-full", children: [
-      /* @__PURE__ */ jsx18(
+  return /* @__PURE__ */ jsxs20("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx20("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs20("div", { className: "relative w-full", children: [
+      /* @__PURE__ */ jsx20(
         Controller5,
         {
           control,
@@ -1061,7 +1095,7 @@ var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputText
           rules: {
             required: config.requerido ? "Este campo es requerido" : false
           },
-          render: ({ field }) => /* @__PURE__ */ jsx18(
+          render: ({ field }) => /* @__PURE__ */ jsx20(
             DatePicker2,
             {
               locale: "es",
@@ -1097,9 +1131,9 @@ var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputText
           )
         }
       ),
-      hasError && /* @__PURE__ */ jsx18(ExclamationCircleIcon14, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx20(ExclamationCircleIcon14, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    hasError && /* @__PURE__ */ jsx18("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx20("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var FechaHoraInput_default = FechaHoraInput;
@@ -1109,7 +1143,7 @@ import DatePicker3, { registerLocale as registerLocale3 } from "react-datepicker
 import { Controller as Controller6 } from "react-hook-form";
 import es3 from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx19, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx21, jsxs as jsxs21 } from "react/jsx-runtime";
 registerLocale3("es", es3);
 var INTERVALS = [
   "Hace 1 hora",
@@ -1136,9 +1170,9 @@ var RangeDateInput = ({
   intervals = INTERVALS
 }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs19("div", { className: "-mt-2 flex flex-col gap-3 w-full", children: [
-    /* @__PURE__ */ jsx19("label", { className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsx19(
+  return /* @__PURE__ */ jsxs21("div", { className: "-mt-2 flex flex-col gap-3 w-full", children: [
+    /* @__PURE__ */ jsx21("label", { className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsx21(
       Controller6,
       {
         name: config.nombre,
@@ -1153,8 +1187,8 @@ var RangeDateInput = ({
             fechaFin: null
           };
           const isCustom = value.tipo === "Rango Personalizado";
-          return /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-4 w-full", children: [
-            /* @__PURE__ */ jsxs19(
+          return /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-4 w-full", children: [
+            /* @__PURE__ */ jsxs21(
               "select",
               {
                 disabled,
@@ -1170,13 +1204,13 @@ var RangeDateInput = ({
                   ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}
                 `,
                 children: [
-                  /* @__PURE__ */ jsx19("option", { value: "", children: "Selecciona un filtro" }),
-                  intervals.map((item) => /* @__PURE__ */ jsx19("option", { value: item, children: item }, item))
+                  /* @__PURE__ */ jsx21("option", { value: "", children: "Selecciona un filtro" }),
+                  intervals.map((item) => /* @__PURE__ */ jsx21("option", { value: item, children: item }, item))
                 ]
               }
             ),
-            isCustom && /* @__PURE__ */ jsxs19("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 w-full", children: [
-              /* @__PURE__ */ jsx19(
+            isCustom && /* @__PURE__ */ jsxs21("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 w-full", children: [
+              /* @__PURE__ */ jsx21(
                 DatePicker3,
                 {
                   locale: "es",
@@ -1203,7 +1237,7 @@ var RangeDateInput = ({
                   }
                 }
               ),
-              /* @__PURE__ */ jsx19(
+              /* @__PURE__ */ jsx21(
                 DatePicker3,
                 {
                   locale: "es",
@@ -1236,18 +1270,18 @@ var RangeDateInput = ({
         }
       }
     ),
-    hasError && /* @__PURE__ */ jsx19("span", { className: "text-xs text-red-500", children: errors[config.nombre]?.message })
+    hasError && /* @__PURE__ */ jsx21("span", { className: "text-xs text-red-500", children: errors[config.nombre]?.message })
   ] });
 };
 var RangeDateInput_default = RangeDateInput;
 
 // src/components/inputs/TextSlugInput.js
-import { jsx as jsx20, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx22, jsxs as jsxs22 } from "react/jsx-runtime";
 var TextInputSlug = ({ config, register, errors, disabled }) => {
   const registerField = register(config.nombre, buildRules(config));
-  return /* @__PURE__ */ jsxs20("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx20("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.label }),
-    /* @__PURE__ */ jsx20(
+  return /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx22("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.label }),
+    /* @__PURE__ */ jsx22(
       "input",
       {
         id: config.nombre,
@@ -1267,7 +1301,7 @@ var TextInputSlug = ({ config, register, errors, disabled }) => {
         `
       }
     ),
-    errors[config.nombre] && /* @__PURE__ */ jsx20("span", { className: "text-xs text-red-500", children: errors[config.nombre].message })
+    errors[config.nombre] && /* @__PURE__ */ jsx22("span", { className: "text-xs text-red-500", children: errors[config.nombre].message })
   ] });
 };
 var TextSlugInput_default = TextInputSlug;
@@ -1316,19 +1350,19 @@ var evaluateCondition = (conditions, getValue, {
 };
 
 // src/components/inputs/FormBuilder.js
-import { jsx as jsx21, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs23 } from "react/jsx-runtime";
 var ADVANCED_FIELD_TYPES = /* @__PURE__ */ new Set(["textoInterno", "rangoFechas"]);
 var DETAIL_HIDDEN_TYPES = /* @__PURE__ */ new Set(["archivo", "zonaArchivos", "FileZone"]);
 var FieldLabel = ({ label, required, note, labelColor }) => {
   const [open, setOpen] = useState(false);
-  return /* @__PURE__ */ jsxs21("div", { className: "flex items-center gap-1", children: [
-    /* @__PURE__ */ jsxs21("span", { className: "text-sm font-medium letraTipoRegular", style: { color: labelColor }, children: [
+  return /* @__PURE__ */ jsxs23("div", { className: "flex items-center gap-1", children: [
+    /* @__PURE__ */ jsxs23("span", { className: "text-sm font-medium letraTipoRegular", style: { color: labelColor }, children: [
       label,
-      required && /* @__PURE__ */ jsx21("span", { className: "ml-1 text-red-500", children: "*" })
+      required && /* @__PURE__ */ jsx23("span", { className: "ml-1 text-red-500", children: "*" })
     ] }),
-    note && /* @__PURE__ */ jsxs21("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx21(
-        InformationCircleIcon,
+    note && /* @__PURE__ */ jsxs23("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx23(
+        InformationCircleIcon3,
         {
           "aria-label": note,
           className: "h-4 w-4 cursor-help text-gray-400 hover:text-gray-600",
@@ -1338,7 +1372,7 @@ var FieldLabel = ({ label, required, note, labelColor }) => {
           onMouseLeave: () => setOpen(false)
         }
       ),
-      open && /* @__PURE__ */ jsx21("div", { role: "tooltip", className: "absolute left-0 top-6 z-50 w-56 rounded-md border bg-white p-3 text-xs text-gray-600 shadow-lg", children: note })
+      open && /* @__PURE__ */ jsx23("div", { role: "tooltip", className: "absolute left-0 top-6 z-50 w-56 rounded-md border bg-white p-3 text-xs text-gray-600 shadow-lg", children: note })
     ] })
   ] });
 };
@@ -1364,60 +1398,64 @@ var renderField = (field, sharedProps, advanced) => {
   const config = {
     ...field,
     requerido: !sharedProps.modoDetalle && field.soloDashboard ? false : field.requerido,
-    customLabel: /* @__PURE__ */ jsx21(FieldLabel, { label: field.label, required: field.requerido, note: field.nota, labelColor: sharedProps.labelColor })
+    customLabel: /* @__PURE__ */ jsx23(FieldLabel, { label: field.label, required: field.requerido, note: field.nota, labelColor: sharedProps.labelColor })
   };
   const commonProps = { ...sharedProps, config };
   switch (field.tipo) {
     case "texto":
-      return /* @__PURE__ */ jsx21(TextInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(TextInput_default, { ...commonProps });
     case "textoInterno":
-      return advanced ? /* @__PURE__ */ jsx21(TextSlugInput_default, { ...commonProps }) : null;
+      return advanced ? /* @__PURE__ */ jsx23(TextSlugInput_default, { ...commonProps }) : null;
     case "textarea":
-      return /* @__PURE__ */ jsx21(TextAreaInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(TextAreaInput_default, { ...commonProps });
     case "correo":
-      return /* @__PURE__ */ jsx21(EmailInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(EmailInput_default, { ...commonProps });
     case "opciones":
     case "select":
-      return /* @__PURE__ */ jsx21(SelectInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(SelectInput_default, { ...commonProps });
     case "checkbox":
-      return /* @__PURE__ */ jsx21(CheckboxInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(CheckboxInput_default, { ...commonProps });
     case "estado":
-      return /* @__PURE__ */ jsx21(EstadoBadgeInput_default, { config: field, value: field.valor });
+      return /* @__PURE__ */ jsx23(EstadoBadgeInput_default, { config: field, value: field.valor });
+    case "informativo":
+      return /* @__PURE__ */ jsx23(InformationalInput_default, { config: field });
+    case "tituloInformativo":
+      return /* @__PURE__ */ jsx23(InformationalTitleInput_default, { config: field });
     case "listaDinamica":
-      return /* @__PURE__ */ jsx21(DynamicListInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(DynamicListInput_default, { ...commonProps });
     case "color":
-      return /* @__PURE__ */ jsx21(ColorInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(ColorInput_default, { ...commonProps });
     case "hipervinculo":
-      return /* @__PURE__ */ jsx21(HyperlinkInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(HyperlinkInput_default, { ...commonProps });
     case "numero":
-      return /* @__PURE__ */ jsx21(NumberInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(NumberInput_default, { ...commonProps });
     case "selectSearch":
-      return /* @__PURE__ */ jsx21(SelectSearchInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(SelectSearchInput_default, { ...commonProps });
     case "selectSearchMultiple":
-      return /* @__PURE__ */ jsx21(SelectMultiSearchInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(SelectMultiSearchInput_default, { ...commonProps });
     case "archivo":
-      return /* @__PURE__ */ jsx21(FileInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(FileInput_default, { ...commonProps });
     case "reglas":
-      return /* @__PURE__ */ jsx21(RuleBuilder_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(RuleBuilder_default, { ...commonProps });
     case "listaObjetos":
-      return /* @__PURE__ */ jsx21(DynamicObjectListInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(DynamicObjectListInput_default, { ...commonProps });
     case "fecha":
-      return /* @__PURE__ */ jsx21(FechaInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(FechaInput_default, { ...commonProps });
     case "fechaHora":
-      return /* @__PURE__ */ jsx21(FechaHoraInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(FechaHoraInput_default, { ...commonProps });
     case "rangoFechas":
-      return advanced ? /* @__PURE__ */ jsx21(RangeDateInput_default, { ...commonProps }) : null;
+      return advanced ? /* @__PURE__ */ jsx23(RangeDateInput_default, { ...commonProps }) : null;
     case "zonaArchivos":
     case "FileZone":
-      return /* @__PURE__ */ jsx21(FileZoneInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx23(FileZoneInput_default, { ...commonProps });
     default:
       return null;
   }
 };
-var renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex) => /* @__PURE__ */ jsx21("div", { className: "flex w-full flex-col gap-4 md:flex-row", children: row.map((field) => {
+var renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex) => /* @__PURE__ */ jsx23("div", { className: "flex w-full flex-col gap-4 md:flex-row", children: row.map((field) => {
   const span = Math.min(field.columna || 12, 12);
   const offset = field.columnaOffset || 0;
-  return /* @__PURE__ */ jsx21(
+  return /* @__PURE__ */ jsx23(
     "div",
     {
       className: "w-full md:w-auto",
@@ -1468,7 +1506,7 @@ var FormBuilder = ({
     modoDetalle
   };
   const rows = buildRows(visibleFields);
-  return /* @__PURE__ */ jsx21("div", { className: "form-kit flex w-full flex-col gap-6", children: renderFieldRows(rows, sharedProps, advanced) });
+  return /* @__PURE__ */ jsx23("div", { className: "form-kit flex w-full flex-col gap-6", children: renderFieldRows(rows, sharedProps, advanced) });
 };
 var FormBuilder_default = FormBuilder;
 export {

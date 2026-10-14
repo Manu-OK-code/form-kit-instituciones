@@ -23,13 +23,20 @@ reflejan con recarga rápida sin reconstruir el paquete.
 ## Tipos compatibles
 
 Tipos comunes: `texto`, `textarea`, `correo`, `opciones`/`select`, `checkbox`,
-`estado`, `listaDinamica`, `color`, `hipervinculo`, `numero`, `selectSearch`,
+`informativo`, `tituloInformativo`, `estado`, `listaDinamica`, `color`,
+`hipervinculo`, `numero`, `selectSearch`,
 `selectSearchMultiple`, `archivo`, `reglas`, `listaObjetos`, `fecha`,
 `fechaHora` y `zonaArchivos`/`FileZone`.
 
 Con el modo avanzado se habilitan `textoInterno` (campo slug) y `rangoFechas`.
 El campo `soloDashboard` y el modo de solo lectura `modoDetalle` conservan el
 comportamiento usado por el dashboard.
+
+El tipo `informativo` muestra únicamente su `label` como una nota visual. No
+registra un control en React Hook Form ni agrega un valor al enviar el formulario.
+Por ejemplo: `{ nombre: 'informacionGeneral', label: 'Información general', tipo: 'informativo' }`.
+El tipo `tituloInformativo` muestra el título y un ícono, sin fondo ni controles
+de formulario: `{ nombre: 'seccionInstitucion', label: 'Datos de la institución', tipo: 'tituloInformativo' }`.
 
 ## Uso
 
