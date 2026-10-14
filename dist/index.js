@@ -240,7 +240,7 @@ var InformationalInput = ({ config }) => /* @__PURE__ */ jsxs6(
   {
     role: "note",
     "aria-label": config.label || "Informaci\xF3n",
-    className: "flex min-h-12 items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-4 py-3 text-[#0A3A5F]",
+    className: "flex h-[38px] w-full items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-3 text-[#0A3A5F]",
     children: [
       /* @__PURE__ */ jsx6(InformationCircleIcon, { "aria-hidden": "true", className: "h-5 w-5 shrink-0 text-[#0A3A5F]" }),
       /* @__PURE__ */ jsx6("span", { className: "text-sm font-medium leading-5 letraTipoRegular", children: config.label || "Informaci\xF3n" })
@@ -257,7 +257,7 @@ var InformationalTitleInput = ({ config }) => /* @__PURE__ */ jsxs7(
   {
     role: "note",
     "aria-label": config.label || "T\xEDtulo informativo",
-    className: "flex items-center gap-2 text-[#0A3A5F]",
+    className: "flex h-[38px] w-full items-center gap-2 text-[#0A3A5F]",
     children: [
       /* @__PURE__ */ jsx7(InformationCircleIcon2, { "aria-hidden": "true", className: "h-5 w-5 shrink-0" }),
       /* @__PURE__ */ jsx7("h3", { className: "text-base font-semibold leading-6 letraTipoRegular", children: config.label || "T\xEDtulo informativo" })
@@ -1455,10 +1455,11 @@ var renderField = (field, sharedProps, advanced) => {
 var renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex) => /* @__PURE__ */ jsx23("div", { className: "flex w-full flex-col gap-4 md:flex-row", children: row.map((field) => {
   const span = Math.min(field.columna || 12, 12);
   const offset = field.columnaOffset || 0;
+  const isInformationalField = ["informativo", "tituloInformativo"].includes(field.tipo);
   return /* @__PURE__ */ jsx23(
     "div",
     {
-      className: "w-full md:w-auto",
+      className: `w-full md:w-auto ${isInformationalField ? "md:flex md:items-end" : ""}`,
       style: { flexBasis: `${span / 12 * 100}%`, marginLeft: offset ? `${offset / 12 * 100}%` : 0 },
       children: renderField(field, sharedProps, advanced)
     },

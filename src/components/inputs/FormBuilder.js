@@ -117,9 +117,13 @@ const renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex
     {row.map((field) => {
       const span = Math.min(field.columna || 12, 12);
       const offset = field.columnaOffset || 0;
+      const isInformationalField = ['informativo', 'tituloInformativo'].includes(field.tipo);
       return (
-        <div key={`${field.nombre}-${field.orden}`} className="w-full md:w-auto"
-          style={{ flexBasis: `${(span / 12) * 100}%`, marginLeft: offset ? `${(offset / 12) * 100}%` : 0 }}>
+        <div
+          key={`${field.nombre}-${field.orden}`}
+          className={`w-full md:w-auto ${isInformationalField ? 'md:flex md:items-end' : ''}`}
+          style={{ flexBasis: `${(span / 12) * 100}%`, marginLeft: offset ? `${(offset / 12) * 100}%` : 0 }}
+        >
           {renderField(field, sharedProps, advanced)}
         </div>
       );
