@@ -58,41 +58,44 @@ var buildRules = (field, options = {}) => {
 // src/components/inputs/CheckboxInput.js
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { jsx, jsxs } from "react/jsx-runtime";
-var CheckboxInput = ({ config, register, errors, disabled }) => /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between", children: [
-  /* @__PURE__ */ jsx("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
-  /* @__PURE__ */ jsxs("label", { className: "relative inline-flex items-center cursor-pointer", children: [
-    /* @__PURE__ */ jsx(
-      "input",
-      {
-        id: config.nombre,
-        "aria-invalid": !!errors?.[config.nombre],
-        "aria-describedby": errors?.[config.nombre] ? `${config.nombre}-error` : void 0,
-        type: "checkbox",
-        disabled,
-        ...register(config.nombre, buildRules(config)),
-        className: "sr-only peer letraTipoLight"
-      }
-    ),
-    /* @__PURE__ */ jsx(
-      "div",
-      {
-        className: `
-            w-11 h-6 rounded-full transition-colors duration-300
-            ${disabled ? "bg-gray-200 cursor-not-allowed" : "bg-gray-300"}
-            peer-checked:bg-green-500
-          `
-      }
-    ),
-    /* @__PURE__ */ jsx(
-      "div",
-      {
-        className: "\n            absolute left-1 top-1\n            w-4 h-4 bg-white rounded-full\n            transition-transform duration-300\n            peer-checked:translate-x-5\n          "
-      }
-    )
-  ] }),
-  errors?.[config.nombre] && /* @__PURE__ */ jsx(ExclamationCircleIcon, { "aria-hidden": "true", className: "h-5 w-5 text-[#EF4444]" }),
-  errors?.[config.nombre] && /* @__PURE__ */ jsx("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].message })
-] });
+var CheckboxInput = ({ config, register, errors, disabled }) => {
+  const hasError = !!errors?.[config.nombre];
+  return /* @__PURE__ */ jsxs("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsx("div", { className: "flex h-[38px] items-center", children: /* @__PURE__ */ jsxs("label", { className: `relative inline-flex h-11 w-11 shrink-0 items-center justify-center ${disabled ? "cursor-not-allowed" : "cursor-pointer"}`, children: [
+      /* @__PURE__ */ jsx(
+        "input",
+        {
+          id: config.nombre,
+          "aria-invalid": hasError,
+          "aria-describedby": hasError ? `${config.nombre}-error` : void 0,
+          type: "checkbox",
+          disabled,
+          ...register(config.nombre, buildRules(config)),
+          className: "sr-only peer letraTipoLight"
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "span",
+        {
+          "aria-hidden": "true",
+          className: `relative h-6 w-11 rounded-full transition-colors duration-200 ${disabled ? "bg-gray-200" : "bg-gray-300"} peer-checked:bg-[#10B981] peer-focus-visible:ring-2 peer-focus-visible:ring-[#30A5E9] peer-focus-visible:ring-offset-2`
+        }
+      ),
+      /* @__PURE__ */ jsx(
+        "span",
+        {
+          "aria-hidden": "true",
+          className: "absolute left-1 top-1/2 h-4 w-4 -translate-y-1/2 rounded-full bg-white transition-transform duration-200 peer-checked:translate-x-5"
+        }
+      )
+    ] }) }),
+    hasError && /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-1", children: [
+      /* @__PURE__ */ jsx(ExclamationCircleIcon, { "aria-hidden": "true", className: "h-5 w-5 shrink-0 text-[#EF4444]" }),
+      /* @__PURE__ */ jsx("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500", children: errors[config.nombre].message })
+    ] })
+  ] });
+};
 var CheckboxInput_default = CheckboxInput;
 
 // src/components/inputs/ColorInput.js
