@@ -38,6 +38,20 @@ Por ejemplo: `{ nombre: 'informacionGeneral', label: 'Información general', tip
 El tipo `tituloInformativo` muestra el título y un ícono, sin fondo ni controles
 de formulario: `{ nombre: 'seccionInstitucion', label: 'Datos de la institución', tipo: 'tituloInformativo' }`.
 
+Desde la versión `0.4.0`, ambos tipos admiten `subtitulo` como texto opcional
+debajo de `label`:
+
+```js
+{ nombre: 'seccionInstitucion', label: 'Datos de la institución', subtitulo: 'Completa los datos de contacto para recibir seguimiento.', tipo: 'tituloInformativo' }
+{ nombre: 'requisitos', label: 'Antes de comenzar', subtitulo: 'Ten a mano los documentos de identificación.', tipo: 'informativo' }
+```
+
+Si `subtitulo` no existe, está vacío o contiene solo espacios, se muestra únicamente
+el título. El contenido se presenta como texto, sin interpretar HTML. Los títulos
+y subtítulos son informativos y no agregan respuestas al envío del formulario.
+El playground incluye una sección inicial para comparar ambos tipos con y sin
+subtítulo.
+
 ## Uso
 
 ```jsx

@@ -4,6 +4,13 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormBuilder } from '../../src/index';
 
+const INFORMATIONAL_FIELDS = [
+  { nombre: 'tituloSinSubtitulo', label: 'Datos de la institución', tipo: 'tituloInformativo', columna: 6, orden: 0 },
+  { nombre: 'tituloConSubtitulo', label: 'Datos de la institución', subtitulo: 'Completa los datos de contacto para recibir seguimiento sobre tu trámite.', tipo: 'tituloInformativo', columna: 6, orden: 1 },
+  { nombre: 'notaSinSubtitulo', label: 'Antes de comenzar', tipo: 'informativo', columna: 6, orden: 2 },
+  { nombre: 'notaConSubtitulo', label: 'Antes de comenzar', subtitulo: 'Ten a mano los documentos de identificación. Revisa que estén vigentes y que la información sea legible.', tipo: 'informativo', columna: 6, orden: 3 },
+];
+
 const FORM_FIELDS = [
   { nombre: 'informacionGeneral', label: 'Información general del trámite', tipo: 'informativo', columna: 6, orden: 0 },
   { nombre: 'nombre', label: 'Nombre de la institución', tipo: 'texto', requerido: true, holder: 'Ej. Instituto Central', columna: 6, orden: 1 },
@@ -94,7 +101,7 @@ const PlaygroundActions = ({ readOnly, notice, onReset }) => (
 
 const PlaygroundFooter = ({ advanced, readOnly }) => (
   <footer className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-200 pt-5 text-xs text-slate-500">
-    <span>Versión local: form-kit 0.3.0</span>
+    <span>Versión local: form-kit 0.4.0</span>
     <span>Avanzados: {advanced ? 'activos' : 'inactivos'}</span>
     <span>Modo: {readOnly ? 'solo lectura' : 'edición'}</span>
   </footer>
@@ -134,6 +141,13 @@ const PlaygroundPage = () => {
       />
 
       <form onSubmit={handleSubmit(submitForm)} className="space-y-6">
+        <section className="playground-fieldset" aria-labelledby="informational-preview-title">
+          <div className="mb-6 border-b border-slate-100 pb-4">
+            <h2 id="informational-preview-title" className="text-lg font-semibold text-slate-900">Títulos con y sin subtítulo</h2>
+            <p className="mt-1 text-sm text-slate-500">Compara cada tipo sin subtítulo y con un texto de apoyo debajo.</p>
+          </div>
+          <FormBuilder fields={INFORMATIONAL_FIELDS} isEditing={!readOnly} />
+        </section>
         <FormSection formProps={formProps} advanced={advanced} readOnly={readOnly} notify={notify} />
         <PlaygroundActions readOnly={readOnly} notice={notice} onReset={resetForm} />
       </form>

@@ -238,35 +238,47 @@ var EstadoBadgeInput_default = EstadoBadgeInput;
 // src/components/inputs/InformationalInput.js
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
 import { jsx as jsx6, jsxs as jsxs6 } from "react/jsx-runtime";
-var InformationalInput = ({ config }) => /* @__PURE__ */ jsxs6(
-  "div",
-  {
-    role: "note",
-    "aria-label": config.label || "Informaci\xF3n",
-    className: "flex h-[38px] w-full items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-3 text-[#0A3A5F]",
-    children: [
-      /* @__PURE__ */ jsx6(InformationCircleIcon, { "aria-hidden": "true", className: "h-5 w-5 shrink-0 text-[#0A3A5F]" }),
-      /* @__PURE__ */ jsx6("span", { className: "text-sm font-medium leading-5 letraTipoRegular", children: config.label || "Informaci\xF3n" })
-    ]
-  }
-);
+var InformationalInput = ({ config }) => {
+  const subtitle = typeof config.subtitulo === "string" ? config.subtitulo.trim() : "";
+  return /* @__PURE__ */ jsxs6(
+    "div",
+    {
+      role: "note",
+      "aria-label": config.label || "Informaci\xF3n",
+      className: `flex w-full items-center gap-3 rounded-lg border border-sky-200 bg-sky-50 px-3 text-[#0A3A5F] ${subtitle ? "min-h-[38px] py-2" : "h-[38px]"}`,
+      children: [
+        /* @__PURE__ */ jsx6(InformationCircleIcon, { "aria-hidden": "true", className: `h-5 w-5 shrink-0 text-[#0A3A5F] ${subtitle ? "mt-0.5 self-start" : ""}` }),
+        /* @__PURE__ */ jsxs6("div", { className: "min-w-0 [overflow-wrap:anywhere]", children: [
+          /* @__PURE__ */ jsx6("span", { className: "text-sm font-medium leading-5 letraTipoRegular", children: config.label || "Informaci\xF3n" }),
+          subtitle && /* @__PURE__ */ jsx6("p", { className: "mt-1 text-sm font-normal leading-5 letraTipoRegular", children: subtitle })
+        ] })
+      ]
+    }
+  );
+};
 var InformationalInput_default = InformationalInput;
 
 // src/components/inputs/InformationalTitleInput.js
 import { InformationCircleIcon as InformationCircleIcon2 } from "@heroicons/react/24/outline";
 import { jsx as jsx7, jsxs as jsxs7 } from "react/jsx-runtime";
-var InformationalTitleInput = ({ config }) => /* @__PURE__ */ jsxs7(
-  "div",
-  {
-    role: "note",
-    "aria-label": config.label || "T\xEDtulo informativo",
-    className: "flex h-[38px] w-full items-center gap-2 text-[#0A3A5F]",
-    children: [
-      /* @__PURE__ */ jsx7(InformationCircleIcon2, { "aria-hidden": "true", className: "h-5 w-5 shrink-0" }),
-      /* @__PURE__ */ jsx7("h3", { className: "text-base font-semibold leading-6 letraTipoRegular", children: config.label || "T\xEDtulo informativo" })
-    ]
-  }
-);
+var InformationalTitleInput = ({ config }) => {
+  const subtitle = typeof config.subtitulo === "string" ? config.subtitulo.trim() : "";
+  return /* @__PURE__ */ jsxs7(
+    "div",
+    {
+      role: "note",
+      "aria-label": config.label || "T\xEDtulo informativo",
+      className: `flex w-full items-center gap-2 text-[#0A3A5F] ${subtitle ? "min-h-[38px] py-2" : "h-[38px]"}`,
+      children: [
+        /* @__PURE__ */ jsx7(InformationCircleIcon2, { "aria-hidden": "true", className: `h-5 w-5 shrink-0 ${subtitle ? "mt-0.5 self-start" : ""}` }),
+        /* @__PURE__ */ jsxs7("div", { className: "min-w-0 [overflow-wrap:anywhere]", children: [
+          /* @__PURE__ */ jsx7("h3", { className: "text-base font-semibold leading-6 letraTipoRegular", children: config.label || "T\xEDtulo informativo" }),
+          subtitle && /* @__PURE__ */ jsx7("p", { className: "mt-1 text-sm font-normal leading-5 letraTipoRegular", children: subtitle })
+        ] })
+      ]
+    }
+  );
+};
 var InformationalTitleInput_default = InformationalTitleInput;
 
 // src/components/inputs/SelectInput.js
