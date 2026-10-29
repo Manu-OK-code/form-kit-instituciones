@@ -1,6 +1,6 @@
 {
   "name": "form-kit",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Componentes de formularios compartidos para las aplicaciones institucionales.",
   "type": "module",
   "main": "./dist/index.js",
