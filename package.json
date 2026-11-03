@@ -1,6 +1,6 @@
 {
   "name": "form-kit",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "Componentes de formularios compartidos para las aplicaciones institucionales.",
   "type": "module",
   "main": "./dist/index.js",
@@ -11,6 +11,7 @@
   },
   "files": ["dist", "src/styles.css", "README.md", "AGENTS.md"],
   "scripts": {
+    "test": "node --test tests/*.test.js",
     "dev": "pnpm --dir playground dev",
     "build": "esbuild src/index.js --bundle --format=esm --platform=browser --loader:.js=jsx --jsx=automatic --external:react --external:react/jsx-runtime --external:react-dom --external:react-hook-form --external:react-datepicker --external:react-select --external:date-fns --external:@heroicons/react/24/outline --outdir=dist",
     "start": "pnpm --dir playground start",
