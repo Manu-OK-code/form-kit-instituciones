@@ -1,9 +1,13 @@
 const evaluateRule = (rule, getValue, options) => {
-  const { fields, ignoredFieldTypes, strictEquality } = options;
-  const sourceField = fields.find((field) => field.nombre === rule.campo);
+  const { fields, ignoredFieldTypes, strictEquality, currentStepId } = options;
+  const sameStep = rule.stepId === undefined || (currentStepId !== undefined
+    && String(rule.stepId) === String(currentStepId));
+  const sourceField = sameStep && fields.find((field) => field.nombre === rule.campo);
   if (ignoredFieldTypes.includes(sourceField?.tipo)) return true;
 
-  const currentValue = getValue(rule.campo);
+  const currentValue = rule.stepId === undefined
+    ? getValue(rule.campo)
+    : getValue(rule.campo, rule.stepId);
 
   switch (rule.operador) {
     case 'equals':
@@ -27,10 +31,11 @@ const evaluateRule = (rule, getValue, options) => {
 
 export const evaluateCondition = (conditions, getValue, {
   fields = [], ignoredFieldTypes = [], strictEquality = false, unknownGroupOperatorPasses = false,
+  currentStepId,
 } = {}) => {
   if (!conditions) return true;
 
-  const evaluate = (rule) => evaluateRule(rule, getValue, { fields, ignoredFieldTypes, strictEquality });
+  const evaluate = (rule) => evaluateRule(rule, getValue, { fields, ignoredFieldTypes, strictEquality, currentStepId });
   if (conditions.and || conditions.or) {
     const andRules = conditions.and || [];
     const orRules = conditions.or || [];

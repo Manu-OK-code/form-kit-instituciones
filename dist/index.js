@@ -684,9 +684,23 @@ var FileInput = ({ config, control, errors, disabled, notify = () => {
 var FileInput_default = FileInput;
 
 // src/components/inputs/RuleBuilder.js
-import { useFieldArray as useFieldArray2 } from "react-hook-form";
-import { jsx as jsx16, jsxs as jsxs16 } from "react/jsx-runtime";
-var operadoresDisponibles = [
+import { useFieldArray as useFieldArray2, useWatch as useWatch2 } from "react-hook-form";
+
+// src/components/inputs/RuleRow.js
+import { useId } from "react";
+import { useController } from "react-hook-form";
+import { XMarkIcon } from "@heroicons/react/24/outline";
+
+// src/utils/ruleSources.js
+var getRuleSource = (ruleSteps, stepId, currentStepId) => {
+  const sourceId = stepId === void 0 ? currentStepId : stepId;
+  return ruleSteps.find((step) => String(step.stepId) === String(sourceId));
+};
+var getRuleSourceFields = (ruleSteps, stepId, currentStepId, fields = []) => ruleSteps.length ? getRuleSource(ruleSteps, stepId, currentStepId)?.fields ?? [] : fields;
+
+// src/components/inputs/RuleRow.js
+import { Fragment, jsx as jsx16, jsxs as jsxs16 } from "react/jsx-runtime";
+var OPERATORS = [
   { label: "Igual a", value: "equals" },
   { label: "Distinto de", value: "notEquals" },
   { label: "Mayor que", value: "greaterThan" },
@@ -694,96 +708,172 @@ var operadoresDisponibles = [
   { label: "Mayor o igual", value: "greaterOrEqual" },
   { label: "Menor o igual", value: "lessOrEqual" }
 ];
-var RuleGroup = ({ title, name, control, camposDisponibles }) => {
-  const { fields, append, remove } = useFieldArray2({
-    control,
-    name
-  });
-  return /* @__PURE__ */ jsxs16("div", { className: "border rounded-xl p-4 space-y-4", children: [
-    /* @__PURE__ */ jsx16("h3", { className: "font-semibold", children: title }),
-    fields.map((field, index) => /* @__PURE__ */ jsxs16("div", { className: "grid grid-cols-12 gap-3 items-end", children: [
-      /* @__PURE__ */ jsxs16("div", { className: "col-span-4", children: [
-        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Campo" }),
+var INPUT_CLASS = "min-h-11 w-full rounded-lg border px-2 py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#30A5E9] disabled:opacity-60";
+var RuleComparisonInputs = ({ name, control, id, disabled, ruleSteps, onRemove }) => /* @__PURE__ */ jsxs16(Fragment, { children: [
+  /* @__PURE__ */ jsxs16("div", { className: ruleSteps.length ? "md:col-span-2" : "md:col-span-4", children: [
+    /* @__PURE__ */ jsx16("label", { htmlFor: `${id}-operator`, className: "text-xs", children: "Operador" }),
+    /* @__PURE__ */ jsx16("select", { ...control.register(`${name}.operador`), id: `${id}-operator`, disabled, className: INPUT_CLASS, children: OPERATORS.map((operator) => /* @__PURE__ */ jsx16("option", { value: operator.value, children: operator.label }, operator.value)) })
+  ] }),
+  /* @__PURE__ */ jsxs16("div", { className: "md:col-span-3", children: [
+    /* @__PURE__ */ jsx16("label", { htmlFor: `${id}-value`, className: "text-xs", children: "Valor" }),
+    /* @__PURE__ */ jsx16("input", { ...control.register(`${name}.valor`), id: `${id}-value`, disabled, className: INPUT_CLASS })
+  ] }),
+  /* @__PURE__ */ jsx16(
+    "button",
+    {
+      type: "button",
+      onClick: onRemove,
+      disabled,
+      "aria-label": "Eliminar regla",
+      className: "flex min-h-11 min-w-11 cursor-pointer items-center justify-center rounded-lg text-red-500 hover:bg-red-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60 md:col-span-1",
+      children: /* @__PURE__ */ jsx16(XMarkIcon, { className: "h-5 w-5", "aria-hidden": "true" })
+    }
+  )
+] });
+var RuleRow = ({ name, control, camposDisponibles, ruleSteps, currentStepId, disabled, onRemove }) => {
+  const id = useId();
+  const step = useController({ name: `${name}.stepId`, control, rules: {
+    validate: (value) => !ruleSteps.length || Boolean(getRuleSource(ruleSteps, value, currentStepId)) || "Selecciona un step disponible."
+  } });
+  const sourceFields = getRuleSourceFields(ruleSteps, step.field.value, currentStepId, camposDisponibles);
+  const field = useController({ name: `${name}.campo`, control, rules: {
+    validate: (value) => !ruleSteps.length || sourceFields.some((item) => item.nombre === value) || "Selecciona un campo de este step."
+  } });
+  const sourceId = step.field.value === void 0 ? currentStepId ?? "" : step.field.value ?? "";
+  const error = step.fieldState.error?.message || field.fieldState.error?.message;
+  return /* @__PURE__ */ jsxs16("div", { className: "space-y-1", children: [
+    /* @__PURE__ */ jsxs16("div", { className: "grid grid-cols-1 items-end gap-3 sm:grid-cols-2 md:grid-cols-12", children: [
+      ruleSteps.length > 0 && /* @__PURE__ */ jsxs16("div", { className: "md:col-span-3", children: [
+        /* @__PURE__ */ jsx16("label", { htmlFor: `${id}-step`, className: "text-xs", children: "Step de origen" }),
         /* @__PURE__ */ jsxs16(
           "select",
           {
-            ...control.register(`${name}.${index}.campo`),
-            className: "w-full border rounded-lg px-2 py-1",
+            ...step.field,
+            id: `${id}-step`,
+            value: sourceId,
+            disabled,
+            className: INPUT_CLASS,
+            "aria-invalid": Boolean(step.fieldState.error),
+            "aria-describedby": error ? `${id}-error` : void 0,
+            onChange: (event) => {
+              step.field.onChange(ruleSteps.find((item) => String(item.stepId) === event.target.value)?.stepId ?? "");
+              field.field.onChange("");
+            },
             children: [
               /* @__PURE__ */ jsx16("option", { value: "", children: "Seleccionar" }),
-              camposDisponibles.map((campo) => /* @__PURE__ */ jsx16("option", { value: campo.nombre, children: campo.label }, campo.nombre))
+              sourceId !== "" && !getRuleSource(ruleSteps, sourceId, currentStepId) && /* @__PURE__ */ jsx16("option", { value: sourceId, children: "Step no disponible" }),
+              ruleSteps.map((item) => /* @__PURE__ */ jsx16("option", { value: item.stepId, children: item.label }, item.stepId))
             ]
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs16("div", { className: "col-span-4", children: [
-        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Operador" }),
-        /* @__PURE__ */ jsx16(
+      /* @__PURE__ */ jsxs16("div", { className: ruleSteps.length ? "md:col-span-3" : "md:col-span-4", children: [
+        /* @__PURE__ */ jsx16("label", { htmlFor: `${id}-field`, className: "text-xs", children: "Campo" }),
+        /* @__PURE__ */ jsxs16(
           "select",
           {
-            ...control.register(`${name}.${index}.operador`),
-            className: "w-full border rounded-lg px-2 py-1",
-            children: operadoresDisponibles.map((op) => /* @__PURE__ */ jsx16("option", { value: op.value, children: op.label }, op.value))
+            ...field.field,
+            value: field.field.value ?? "",
+            id: `${id}-field`,
+            disabled,
+            className: INPUT_CLASS,
+            "aria-invalid": Boolean(field.fieldState.error),
+            "aria-describedby": error ? `${id}-error` : void 0,
+            children: [
+              /* @__PURE__ */ jsx16("option", { value: "", children: "Seleccionar" }),
+              field.field.value && !sourceFields.some((item) => item.nombre === field.field.value) && /* @__PURE__ */ jsxs16("option", { value: field.field.value, children: [
+                "Campo no disponible: ",
+                field.field.value
+              ] }),
+              sourceFields.map((item) => /* @__PURE__ */ jsx16("option", { value: item.nombre, children: item.label }, item.nombre))
+            ]
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs16("div", { className: "col-span-3", children: [
-        /* @__PURE__ */ jsx16("label", { className: "text-xs", children: "Valor" }),
-        /* @__PURE__ */ jsx16(
-          "input",
-          {
-            ...control.register(`${name}.${index}.valor`),
-            className: "w-full border rounded-lg px-2 py-1"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsx16("div", { className: "col-span-1", children: /* @__PURE__ */ jsx16(
-        "button",
-        {
-          type: "button",
-          onClick: () => remove(index),
-          className: "text-red-500",
-          children: "\u2715"
-        }
-      ) })
-    ] }, field.id)),
-    /* @__PURE__ */ jsx16(
-      "button",
+      /* @__PURE__ */ jsx16(RuleComparisonInputs, { name, control, id, disabled, ruleSteps, onRemove })
+    ] }),
+    error && /* @__PURE__ */ jsx16("p", { id: `${id}-error`, role: "alert", className: "text-sm text-red-500", children: error })
+  ] });
+};
+var RuleRow_default = RuleRow;
+
+// src/components/inputs/RuleBuilder.js
+import { jsx as jsx17, jsxs as jsxs17 } from "react/jsx-runtime";
+var RuleGroup = ({ title, name, control, camposDisponibles, ruleSteps, currentStepId, disabled }) => {
+  const { fields, append, remove } = useFieldArray2({ control, name });
+  return /* @__PURE__ */ jsxs17("div", { className: "space-y-4 rounded-xl border p-4", children: [
+    /* @__PURE__ */ jsx17("h3", { className: "font-semibold", children: title }),
+    fields.map((field, index) => /* @__PURE__ */ jsx17(
+      RuleRow_default,
       {
-        type: "button",
-        onClick: () => append({ campo: "", operador: "equals", valor: "" }),
-        className: "text-sm bg-gray-900 text-white px-3 py-1 rounded-lg",
-        children: "+ Agregar regla"
+        name: `${name}.${index}`,
+        control,
+        camposDisponibles,
+        ruleSteps,
+        currentStepId,
+        disabled,
+        onRemove: () => remove(index)
+      },
+      field.id
+    )),
+    /* @__PURE__ */ jsx17("button", { type: "button", disabled, onClick: () => append({
+      campo: "",
+      operador: "equals",
+      valor: "",
+      ...ruleSteps.length && currentStepId !== void 0 ? { stepId: currentStepId } : {}
+    }), className: "min-h-11 cursor-pointer rounded-lg bg-gray-900 px-3 py-1 text-sm text-white hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60", children: "+ Agregar regla" })
+  ] });
+};
+var RuleBuilder = ({ control, camposDisponibles = [], ruleSteps = [], currentStepId, disabled }) => {
+  const conditions = useWatch2({ control, name: "condiciones" });
+  if (conditions?.reglas && !conditions.and && !conditions.or) {
+    return /* @__PURE__ */ jsx17(
+      RuleGroup,
+      {
+        title: `Reglas ${conditions.operador === "OR" ? "OR" : "AND"}`,
+        name: "condiciones.reglas",
+        control,
+        camposDisponibles,
+        ruleSteps,
+        currentStepId,
+        disabled
+      },
+      "legacy"
+    );
+  }
+  return /* @__PURE__ */ jsxs17("div", { className: "space-y-6", children: [
+    /* @__PURE__ */ jsx17(
+      RuleGroup,
+      {
+        title: "Reglas AND (todas deben cumplirse)",
+        name: "condiciones.and",
+        control,
+        camposDisponibles,
+        ruleSteps,
+        currentStepId,
+        disabled
+      }
+    ),
+    /* @__PURE__ */ jsx17(
+      RuleGroup,
+      {
+        title: "Reglas OR (al menos una debe cumplirse)",
+        name: "condiciones.or",
+        control,
+        camposDisponibles,
+        ruleSteps,
+        currentStepId,
+        disabled
       }
     )
   ] });
 };
-var RuleBuilder = ({ control, camposDisponibles }) => /* @__PURE__ */ jsxs16("div", { className: "space-y-6", children: [
-  /* @__PURE__ */ jsx16(
-    RuleGroup,
-    {
-      title: "Reglas AND (todas deben cumplirse)",
-      name: "condiciones.and",
-      control,
-      camposDisponibles
-    }
-  ),
-  /* @__PURE__ */ jsx16(
-    RuleGroup,
-    {
-      title: "Reglas OR (al menos una debe cumplirse)",
-      name: "condiciones.or",
-      control,
-      camposDisponibles
-    }
-  )
-] });
 var RuleBuilder_default = RuleBuilder;
 
 // src/components/inputs/DynamicObjectListInput.js
 import { useFieldArray as useFieldArray3 } from "react-hook-form";
 import { TrashIcon as TrashIcon2, PlusIcon as PlusIcon2 } from "@heroicons/react/24/outline";
-import { jsx as jsx17, jsxs as jsxs17 } from "react/jsx-runtime";
+import { jsx as jsx18, jsxs as jsxs18 } from "react/jsx-runtime";
 var DynamicObjectListInput = ({ config, register, control, disabled }) => {
   const { fields, append, remove } = useFieldArray3({
     control,
@@ -793,7 +883,7 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
     const fieldName = `${config.nombre}.${index}.${campo.nombre}`;
     switch (campo.tipo) {
       case "texto":
-        return /* @__PURE__ */ jsx17(
+        return /* @__PURE__ */ jsx18(
           "input",
           {
             type: "text",
@@ -803,7 +893,7 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
           }
         );
       case "numero":
-        return /* @__PURE__ */ jsx17(
+        return /* @__PURE__ */ jsx18(
           "input",
           {
             type: "number",
@@ -813,15 +903,15 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
           }
         );
       case "select":
-        return /* @__PURE__ */ jsxs17(
+        return /* @__PURE__ */ jsxs18(
           "select",
           {
             disabled,
             ...register(fieldName, { required: campo.requerido }),
             className: "w-full px-2 py-1 border rounded-md text-sm border-gray-300",
             children: [
-              /* @__PURE__ */ jsx17("option", { value: "", children: "Seleccione" }),
-              campo.opciones?.map((op) => /* @__PURE__ */ jsx17("option", { value: op.value, children: op.label }, op.value))
+              /* @__PURE__ */ jsx18("option", { value: "", children: "Seleccione" }),
+              campo.opciones?.map((op) => /* @__PURE__ */ jsx18("option", { value: op.value, children: op.label }, op.value))
             ]
           }
         );
@@ -836,28 +926,28 @@ var DynamicObjectListInput = ({ config, register, control, disabled }) => {
     });
     return obj;
   };
-  return /* @__PURE__ */ jsxs17("div", { className: "flex flex-col gap-4", children: [
-    /* @__PURE__ */ jsx17("label", { className: "text-sm font-medium text-gray-700", children: config.label }),
-    /* @__PURE__ */ jsx17("div", { className: "border rounded-lg overflow-hidden", children: /* @__PURE__ */ jsxs17("table", { className: "w-full text-sm", children: [
-      /* @__PURE__ */ jsx17("thead", { className: "bg-gray-100 text-gray-600", children: /* @__PURE__ */ jsxs17("tr", { children: [
-        /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 w-10", children: "#" }),
-        config.campos.map((campo) => /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 text-left", children: campo.label }, campo.nombre)),
-        /* @__PURE__ */ jsx17("th", { className: "px-4 py-2 text-right w-16", children: "Acci\xF3n" })
+  return /* @__PURE__ */ jsxs18("div", { className: "flex flex-col gap-4", children: [
+    /* @__PURE__ */ jsx18("label", { className: "text-sm font-medium text-gray-700", children: config.label }),
+    /* @__PURE__ */ jsx18("div", { className: "border rounded-lg overflow-hidden", children: /* @__PURE__ */ jsxs18("table", { className: "w-full text-sm", children: [
+      /* @__PURE__ */ jsx18("thead", { className: "bg-gray-100 text-gray-600", children: /* @__PURE__ */ jsxs18("tr", { children: [
+        /* @__PURE__ */ jsx18("th", { className: "px-4 py-2 w-10", children: "#" }),
+        config.campos.map((campo) => /* @__PURE__ */ jsx18("th", { className: "px-4 py-2 text-left", children: campo.label }, campo.nombre)),
+        /* @__PURE__ */ jsx18("th", { className: "px-4 py-2 text-right w-16", children: "Acci\xF3n" })
       ] }) }),
-      /* @__PURE__ */ jsx17("tbody", { children: fields.length === 0 ? /* @__PURE__ */ jsx17("tr", { children: /* @__PURE__ */ jsx17("td", { colSpan: config.campos.length + 2, className: "text-center py-6 text-gray-400", children: "No hay registros" }) }) : fields.map((item, index) => /* @__PURE__ */ jsxs17("tr", { className: "border-t", children: [
-        /* @__PURE__ */ jsx17("td", { className: "px-4 py-2", children: index + 1 }),
-        config.campos.map((campo) => /* @__PURE__ */ jsx17("td", { className: "px-4 py-2", children: renderInput(campo, index) }, campo.nombre)),
-        /* @__PURE__ */ jsx17("td", { className: "px-4 py-2 text-right", children: !disabled && /* @__PURE__ */ jsx17("button", { type: "button", onClick: () => remove(index), className: "text-red-500", children: /* @__PURE__ */ jsx17(TrashIcon2, { className: "w-5 h-5 inline" }) }) })
+      /* @__PURE__ */ jsx18("tbody", { children: fields.length === 0 ? /* @__PURE__ */ jsx18("tr", { children: /* @__PURE__ */ jsx18("td", { colSpan: config.campos.length + 2, className: "text-center py-6 text-gray-400", children: "No hay registros" }) }) : fields.map((item, index) => /* @__PURE__ */ jsxs18("tr", { className: "border-t", children: [
+        /* @__PURE__ */ jsx18("td", { className: "px-4 py-2", children: index + 1 }),
+        config.campos.map((campo) => /* @__PURE__ */ jsx18("td", { className: "px-4 py-2", children: renderInput(campo, index) }, campo.nombre)),
+        /* @__PURE__ */ jsx18("td", { className: "px-4 py-2 text-right", children: !disabled && /* @__PURE__ */ jsx18("button", { type: "button", onClick: () => remove(index), className: "text-red-500", children: /* @__PURE__ */ jsx18(TrashIcon2, { className: "w-5 h-5 inline" }) }) })
       ] }, item.id)) })
     ] }) }),
-    !disabled && /* @__PURE__ */ jsxs17(
+    !disabled && /* @__PURE__ */ jsxs18(
       "button",
       {
         type: "button",
         onClick: () => append(getDefaultObject()),
         className: "flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm w-fit",
         children: [
-          /* @__PURE__ */ jsx17(PlusIcon2, { className: "w-4 h-4" }),
+          /* @__PURE__ */ jsx18(PlusIcon2, { className: "w-4 h-4" }),
           "Agregar registro"
         ]
       }
@@ -873,14 +963,14 @@ import { registerLocale } from "react-datepicker";
 import { ExclamationCircleIcon as ExclamationCircleIcon12 } from "@heroicons/react/24/outline";
 import es from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx18, jsxs as jsxs18 } from "react/jsx-runtime";
+import { jsx as jsx19, jsxs as jsxs19 } from "react/jsx-runtime";
 registerLocale("es", es);
 var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs18("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx18("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs18("div", { className: "relative w-full", children: [
-      /* @__PURE__ */ jsx18(
+  return /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx19("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs19("div", { className: "relative w-full", children: [
+      /* @__PURE__ */ jsx19(
         Controller4,
         {
           control,
@@ -888,7 +978,7 @@ var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColo
           rules: {
             required: config.requerido ? "Este campo es requerido" : false
           },
-          render: ({ field }) => /* @__PURE__ */ jsx18(
+          render: ({ field }) => /* @__PURE__ */ jsx19(
             DatePicker,
             {
               locale: "es",
@@ -925,18 +1015,18 @@ var FechaInput = ({ config, control, errors, disabled, labelColor, inputTextColo
           )
         }
       ),
-      hasError && /* @__PURE__ */ jsx18(ExclamationCircleIcon12, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx19(ExclamationCircleIcon12, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    hasError && /* @__PURE__ */ jsx18("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx19("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var FechaInput_default = FechaInput;
 
 // src/components/inputs/FileZoneInput.js
 import { useRef } from "react";
-import { XMarkIcon, DocumentIcon } from "@heroicons/react/24/outline";
+import { XMarkIcon as XMarkIcon2, DocumentIcon } from "@heroicons/react/24/outline";
 import { ExclamationCircleIcon as ExclamationCircleIcon13 } from "@heroicons/react/24/outline";
-import { jsx as jsx19, jsxs as jsxs19 } from "react/jsx-runtime";
+import { jsx as jsx20, jsxs as jsxs20 } from "react/jsx-runtime";
 var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = () => {
 } }) => {
   const inputRef = useRef(null);
@@ -1017,9 +1107,9 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
       return files2.length > 0 || "Debe adjuntar al menos un archivo";
     }
   });
-  return /* @__PURE__ */ jsxs19("div", { className: "flex flex-col gap-3 w-full", children: [
-    /* @__PURE__ */ jsx19("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs19(
+  return /* @__PURE__ */ jsxs20("div", { className: "flex flex-col gap-3 w-full", children: [
+    /* @__PURE__ */ jsx20("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-700", children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs20(
       "div",
       {
         onClick: openFileSelector,
@@ -1031,7 +1121,7 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
           ${errors?.[config.nombre] ? "border-red-500" : "border-gray-300"}
         `,
         children: [
-          /* @__PURE__ */ jsx19(
+          /* @__PURE__ */ jsx20(
             "input",
             {
               id: config.nombre,
@@ -1050,39 +1140,39 @@ var FileZone = ({ config, register, errors, disabled, watch, setValue, notify = 
               onChange: handleFiles
             }
           ),
-          /* @__PURE__ */ jsx19("p", { className: "text-sm text-blue-600 font-medium", children: "Arrastra archivos aqu\xED o haz clic para subir" }),
-          /* @__PURE__ */ jsxs19("p", { className: "text-xs text-gray-500 mt-1", children: [
+          /* @__PURE__ */ jsx20("p", { className: "text-sm text-blue-600 font-medium", children: "Arrastra archivos aqu\xED o haz clic para subir" }),
+          /* @__PURE__ */ jsxs20("p", { className: "text-xs text-gray-500 mt-1", children: [
             "M\xE1ximo ",
             MAX_FILES_IN_ZONE,
             " archivos \u2022 ",
             MAX_FILE_SIZE_MB,
             " MB por archivo"
           ] }),
-          /* @__PURE__ */ jsxs19("p", { className: "text-xs text-gray-500 mt-1", children: [
+          /* @__PURE__ */ jsxs20("p", { className: "text-xs text-gray-500 mt-1", children: [
             "Archivos permitidos: ",
             config.permitidos?.map((p) => p.value.toUpperCase()).join(", ")
           ] })
         ]
       }
     ),
-    fileList.length > 0 && /* @__PURE__ */ jsx19("div", { className: "flex flex-col gap-2", children: fileList.map((file, index) => {
+    fileList.length > 0 && /* @__PURE__ */ jsx20("div", { className: "flex flex-col gap-2", children: fileList.map((file, index) => {
       const size = getFileSize(file);
-      return /* @__PURE__ */ jsxs19("div", { className: "flex items-center justify-between bg-gray-50 border rounded-lg px-3 py-2", children: [
-        /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-2 overflow-hidden", children: [
-          /* @__PURE__ */ jsx19(DocumentIcon, { className: "w-5 h-5 text-gray-500" }),
-          /* @__PURE__ */ jsx19("span", { className: "text-sm truncate max-w-[220px]", children: getFileName(file, index) }),
-          size && /* @__PURE__ */ jsxs19("span", { className: "text-xs text-gray-400", children: [
+      return /* @__PURE__ */ jsxs20("div", { className: "flex items-center justify-between bg-gray-50 border rounded-lg px-3 py-2", children: [
+        /* @__PURE__ */ jsxs20("div", { className: "flex items-center gap-2 overflow-hidden", children: [
+          /* @__PURE__ */ jsx20(DocumentIcon, { className: "w-5 h-5 text-gray-500" }),
+          /* @__PURE__ */ jsx20("span", { className: "text-sm truncate max-w-[220px]", children: getFileName(file, index) }),
+          size && /* @__PURE__ */ jsxs20("span", { className: "text-xs text-gray-400", children: [
             "(",
             size,
             " MB)"
           ] })
         ] }),
-        !disabled && /* @__PURE__ */ jsx19("button", { type: "button", onClick: () => removeFile(index), className: "text-red-500 hover:text-red-700", children: /* @__PURE__ */ jsx19(XMarkIcon, { className: "w-4 h-4" }) })
+        !disabled && /* @__PURE__ */ jsx20("button", { type: "button", onClick: () => removeFile(index), className: "text-red-500 hover:text-red-700", children: /* @__PURE__ */ jsx20(XMarkIcon2, { className: "w-4 h-4" }) })
       ] }, index);
     }) }),
-    errors?.[config.nombre] && /* @__PURE__ */ jsxs19("div", { className: "flex items-center gap-1 text-[#EF4444]", children: [
-      /* @__PURE__ */ jsx19(ExclamationCircleIcon13, { "aria-hidden": "true", className: "h-5 w-5" }),
-      /* @__PURE__ */ jsx19("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs letraTipoRegular", children: errors[config.nombre].message })
+    errors?.[config.nombre] && /* @__PURE__ */ jsxs20("div", { className: "flex items-center gap-1 text-[#EF4444]", children: [
+      /* @__PURE__ */ jsx20(ExclamationCircleIcon13, { "aria-hidden": "true", className: "h-5 w-5" }),
+      /* @__PURE__ */ jsx20("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs letraTipoRegular", children: errors[config.nombre].message })
     ] })
   ] });
 };
@@ -1095,14 +1185,14 @@ import { registerLocale as registerLocale2 } from "react-datepicker";
 import { ExclamationCircleIcon as ExclamationCircleIcon14 } from "@heroicons/react/24/outline";
 import es2 from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx20, jsxs as jsxs20 } from "react/jsx-runtime";
+import { jsx as jsx21, jsxs as jsxs21 } from "react/jsx-runtime";
 registerLocale2("es", es2);
 var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputTextColor, inputBgColor }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs20("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx20("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsxs20("div", { className: "relative w-full", children: [
-      /* @__PURE__ */ jsx20(
+  return /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx21("label", { htmlFor: config.nombre, className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsxs21("div", { className: "relative w-full", children: [
+      /* @__PURE__ */ jsx21(
         Controller5,
         {
           control,
@@ -1110,7 +1200,7 @@ var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputText
           rules: {
             required: config.requerido ? "Este campo es requerido" : false
           },
-          render: ({ field }) => /* @__PURE__ */ jsx20(
+          render: ({ field }) => /* @__PURE__ */ jsx21(
             DatePicker2,
             {
               locale: "es",
@@ -1146,9 +1236,9 @@ var FechaHoraInput = ({ config, control, errors, disabled, labelColor, inputText
           )
         }
       ),
-      hasError && /* @__PURE__ */ jsx20(ExclamationCircleIcon14, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
+      hasError && /* @__PURE__ */ jsx21(ExclamationCircleIcon14, { "aria-hidden": "true", className: "absolute right-2 top-2 h-6 w-6 text-red-500 pointer-events-none" })
     ] }),
-    hasError && /* @__PURE__ */ jsx20("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
+    hasError && /* @__PURE__ */ jsx21("span", { id: `${config.nombre}-error`, role: "alert", className: "text-xs text-red-500 letraTipoRegular", children: errors[config.nombre].message })
   ] });
 };
 var FechaHoraInput_default = FechaHoraInput;
@@ -1158,7 +1248,7 @@ import DatePicker3, { registerLocale as registerLocale3 } from "react-datepicker
 import { Controller as Controller6 } from "react-hook-form";
 import es3 from "date-fns/locale/es";
 import "react-datepicker/dist/react-datepicker.css";
-import { jsx as jsx21, jsxs as jsxs21 } from "react/jsx-runtime";
+import { jsx as jsx22, jsxs as jsxs22 } from "react/jsx-runtime";
 registerLocale3("es", es3);
 var INTERVALS = [
   "Hace 1 hora",
@@ -1185,9 +1275,9 @@ var RangeDateInput = ({
   intervals = INTERVALS
 }) => {
   const hasError = !!errors?.[config.nombre];
-  return /* @__PURE__ */ jsxs21("div", { className: "-mt-2 flex flex-col gap-3 w-full", children: [
-    /* @__PURE__ */ jsx21("label", { className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
-    /* @__PURE__ */ jsx21(
+  return /* @__PURE__ */ jsxs22("div", { className: "-mt-2 flex flex-col gap-3 w-full", children: [
+    /* @__PURE__ */ jsx22("label", { className: "text-sm font-medium", style: { color: labelColor }, children: config.customLabel || config.label }),
+    /* @__PURE__ */ jsx22(
       Controller6,
       {
         name: config.nombre,
@@ -1202,8 +1292,8 @@ var RangeDateInput = ({
             fechaFin: null
           };
           const isCustom = value.tipo === "Rango Personalizado";
-          return /* @__PURE__ */ jsxs21("div", { className: "flex flex-col gap-4 w-full", children: [
-            /* @__PURE__ */ jsxs21(
+          return /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-4 w-full", children: [
+            /* @__PURE__ */ jsxs22(
               "select",
               {
                 disabled,
@@ -1219,13 +1309,13 @@ var RangeDateInput = ({
                   ${disabled ? "bg-gray-100 cursor-not-allowed" : ""}
                 `,
                 children: [
-                  /* @__PURE__ */ jsx21("option", { value: "", children: "Selecciona un filtro" }),
-                  intervals.map((item) => /* @__PURE__ */ jsx21("option", { value: item, children: item }, item))
+                  /* @__PURE__ */ jsx22("option", { value: "", children: "Selecciona un filtro" }),
+                  intervals.map((item) => /* @__PURE__ */ jsx22("option", { value: item, children: item }, item))
                 ]
               }
             ),
-            isCustom && /* @__PURE__ */ jsxs21("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 w-full", children: [
-              /* @__PURE__ */ jsx21(
+            isCustom && /* @__PURE__ */ jsxs22("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 w-full", children: [
+              /* @__PURE__ */ jsx22(
                 DatePicker3,
                 {
                   locale: "es",
@@ -1252,7 +1342,7 @@ var RangeDateInput = ({
                   }
                 }
               ),
-              /* @__PURE__ */ jsx21(
+              /* @__PURE__ */ jsx22(
                 DatePicker3,
                 {
                   locale: "es",
@@ -1285,18 +1375,18 @@ var RangeDateInput = ({
         }
       }
     ),
-    hasError && /* @__PURE__ */ jsx21("span", { className: "text-xs text-red-500", children: errors[config.nombre]?.message })
+    hasError && /* @__PURE__ */ jsx22("span", { className: "text-xs text-red-500", children: errors[config.nombre]?.message })
   ] });
 };
 var RangeDateInput_default = RangeDateInput;
 
 // src/components/inputs/TextSlugInput.js
-import { jsx as jsx22, jsxs as jsxs22 } from "react/jsx-runtime";
+import { jsx as jsx23, jsxs as jsxs23 } from "react/jsx-runtime";
 var TextInputSlug = ({ config, register, errors, disabled }) => {
   const registerField = register(config.nombre, buildRules(config));
-  return /* @__PURE__ */ jsxs22("div", { className: "flex flex-col gap-1", children: [
-    /* @__PURE__ */ jsx22("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.label }),
-    /* @__PURE__ */ jsx22(
+  return /* @__PURE__ */ jsxs23("div", { className: "flex flex-col gap-1", children: [
+    /* @__PURE__ */ jsx23("label", { htmlFor: config.nombre, className: "text-sm font-medium text-gray-600", children: config.label }),
+    /* @__PURE__ */ jsx23(
       "input",
       {
         id: config.nombre,
@@ -1316,17 +1406,18 @@ var TextInputSlug = ({ config, register, errors, disabled }) => {
         `
       }
     ),
-    errors[config.nombre] && /* @__PURE__ */ jsx22("span", { className: "text-xs text-red-500", children: errors[config.nombre].message })
+    errors[config.nombre] && /* @__PURE__ */ jsx23("span", { className: "text-xs text-red-500", children: errors[config.nombre].message })
   ] });
 };
 var TextSlugInput_default = TextInputSlug;
 
 // src/utils/evaluateCondition.js
 var evaluateRule = (rule, getValue, options) => {
-  const { fields, ignoredFieldTypes, strictEquality } = options;
-  const sourceField = fields.find((field) => field.nombre === rule.campo);
+  const { fields, ignoredFieldTypes, strictEquality, currentStepId } = options;
+  const sameStep = rule.stepId === void 0 || currentStepId !== void 0 && String(rule.stepId) === String(currentStepId);
+  const sourceField = sameStep && fields.find((field) => field.nombre === rule.campo);
   if (ignoredFieldTypes.includes(sourceField?.tipo)) return true;
-  const currentValue = getValue(rule.campo);
+  const currentValue = rule.stepId === void 0 ? getValue(rule.campo) : getValue(rule.campo, rule.stepId);
   switch (rule.operador) {
     case "equals":
       return strictEquality ? currentValue === rule.valor : currentValue == rule.valor;
@@ -1348,10 +1439,11 @@ var evaluateCondition = (conditions, getValue, {
   fields = [],
   ignoredFieldTypes = [],
   strictEquality = false,
-  unknownGroupOperatorPasses = false
+  unknownGroupOperatorPasses = false,
+  currentStepId
 } = {}) => {
   if (!conditions) return true;
-  const evaluate = (rule) => evaluateRule(rule, getValue, { fields, ignoredFieldTypes, strictEquality });
+  const evaluate = (rule) => evaluateRule(rule, getValue, { fields, ignoredFieldTypes, strictEquality, currentStepId });
   if (conditions.and || conditions.or) {
     const andRules = conditions.and || [];
     const orRules = conditions.or || [];
@@ -1365,18 +1457,18 @@ var evaluateCondition = (conditions, getValue, {
 };
 
 // src/components/inputs/FormBuilder.js
-import { jsx as jsx23, jsxs as jsxs23 } from "react/jsx-runtime";
+import { jsx as jsx24, jsxs as jsxs24 } from "react/jsx-runtime";
 var ADVANCED_FIELD_TYPES = /* @__PURE__ */ new Set(["textoInterno", "rangoFechas"]);
 var DETAIL_HIDDEN_TYPES = /* @__PURE__ */ new Set(["archivo", "zonaArchivos", "FileZone"]);
 var FieldLabel = ({ label, required, note, labelColor }) => {
   const [open, setOpen] = useState(false);
-  return /* @__PURE__ */ jsxs23("div", { className: "flex items-center gap-1", children: [
-    /* @__PURE__ */ jsxs23("span", { className: "text-sm font-medium letraTipoRegular", style: { color: labelColor }, children: [
+  return /* @__PURE__ */ jsxs24("div", { className: "flex items-center gap-1", children: [
+    /* @__PURE__ */ jsxs24("span", { className: "text-sm font-medium letraTipoRegular", style: { color: labelColor }, children: [
       label,
-      required && /* @__PURE__ */ jsx23("span", { className: "ml-1 text-red-500", children: "*" })
+      required && /* @__PURE__ */ jsx24("span", { className: "ml-1 text-red-500", children: "*" })
     ] }),
-    note && /* @__PURE__ */ jsxs23("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx23(
+    note && /* @__PURE__ */ jsxs24("div", { className: "relative", children: [
+      /* @__PURE__ */ jsx24(
         InformationCircleIcon3,
         {
           "aria-label": note,
@@ -1387,7 +1479,7 @@ var FieldLabel = ({ label, required, note, labelColor }) => {
           onMouseLeave: () => setOpen(false)
         }
       ),
-      open && /* @__PURE__ */ jsx23("div", { role: "tooltip", className: "absolute left-0 top-6 z-50 w-56 rounded-md border bg-white p-3 text-xs text-gray-600 shadow-lg", children: note })
+      open && /* @__PURE__ */ jsx24("div", { role: "tooltip", className: "absolute left-0 top-6 z-50 w-56 rounded-md border bg-white p-3 text-xs text-gray-600 shadow-lg", children: note })
     ] })
   ] });
 };
@@ -1413,65 +1505,65 @@ var renderField = (field, sharedProps, advanced) => {
   const config = {
     ...field,
     requerido: !sharedProps.modoDetalle && field.soloDashboard ? false : field.requerido,
-    customLabel: /* @__PURE__ */ jsx23(FieldLabel, { label: field.label, required: field.requerido, note: field.nota, labelColor: sharedProps.labelColor })
+    customLabel: /* @__PURE__ */ jsx24(FieldLabel, { label: field.label, required: field.requerido, note: field.nota, labelColor: sharedProps.labelColor })
   };
   const commonProps = { ...sharedProps, config };
   switch (field.tipo) {
     case "texto":
-      return /* @__PURE__ */ jsx23(TextInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(TextInput_default, { ...commonProps });
     case "textoInterno":
-      return advanced ? /* @__PURE__ */ jsx23(TextSlugInput_default, { ...commonProps }) : null;
+      return advanced ? /* @__PURE__ */ jsx24(TextSlugInput_default, { ...commonProps }) : null;
     case "textarea":
-      return /* @__PURE__ */ jsx23(TextAreaInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(TextAreaInput_default, { ...commonProps });
     case "correo":
-      return /* @__PURE__ */ jsx23(EmailInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(EmailInput_default, { ...commonProps });
     case "opciones":
     case "select":
-      return /* @__PURE__ */ jsx23(SelectInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(SelectInput_default, { ...commonProps });
     case "checkbox":
-      return /* @__PURE__ */ jsx23(CheckboxInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(CheckboxInput_default, { ...commonProps });
     case "estado":
-      return /* @__PURE__ */ jsx23(EstadoBadgeInput_default, { config: field, value: field.valor });
+      return /* @__PURE__ */ jsx24(EstadoBadgeInput_default, { config: field, value: field.valor });
     case "informativo":
-      return /* @__PURE__ */ jsx23(InformationalInput_default, { config: field });
+      return /* @__PURE__ */ jsx24(InformationalInput_default, { config: field });
     case "tituloInformativo":
-      return /* @__PURE__ */ jsx23(InformationalTitleInput_default, { config: field });
+      return /* @__PURE__ */ jsx24(InformationalTitleInput_default, { config: field });
     case "listaDinamica":
-      return /* @__PURE__ */ jsx23(DynamicListInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(DynamicListInput_default, { ...commonProps });
     case "color":
-      return /* @__PURE__ */ jsx23(ColorInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(ColorInput_default, { ...commonProps });
     case "hipervinculo":
-      return /* @__PURE__ */ jsx23(HyperlinkInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(HyperlinkInput_default, { ...commonProps });
     case "numero":
-      return /* @__PURE__ */ jsx23(NumberInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(NumberInput_default, { ...commonProps });
     case "selectSearch":
-      return /* @__PURE__ */ jsx23(SelectSearchInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(SelectSearchInput_default, { ...commonProps });
     case "selectSearchMultiple":
-      return /* @__PURE__ */ jsx23(SelectMultiSearchInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(SelectMultiSearchInput_default, { ...commonProps });
     case "archivo":
-      return /* @__PURE__ */ jsx23(FileInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(FileInput_default, { ...commonProps });
     case "reglas":
-      return /* @__PURE__ */ jsx23(RuleBuilder_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(RuleBuilder_default, { ...commonProps });
     case "listaObjetos":
-      return /* @__PURE__ */ jsx23(DynamicObjectListInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(DynamicObjectListInput_default, { ...commonProps });
     case "fecha":
-      return /* @__PURE__ */ jsx23(FechaInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(FechaInput_default, { ...commonProps });
     case "fechaHora":
-      return /* @__PURE__ */ jsx23(FechaHoraInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(FechaHoraInput_default, { ...commonProps });
     case "rangoFechas":
-      return advanced ? /* @__PURE__ */ jsx23(RangeDateInput_default, { ...commonProps }) : null;
+      return advanced ? /* @__PURE__ */ jsx24(RangeDateInput_default, { ...commonProps }) : null;
     case "zonaArchivos":
     case "FileZone":
-      return /* @__PURE__ */ jsx23(FileZoneInput_default, { ...commonProps });
+      return /* @__PURE__ */ jsx24(FileZoneInput_default, { ...commonProps });
     default:
       return null;
   }
 };
-var renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex) => /* @__PURE__ */ jsx23("div", { className: "flex w-full flex-col gap-4 md:flex-row", children: row.map((field) => {
+var renderFieldRows = (rows, sharedProps, advanced) => rows.map((row, rowIndex) => /* @__PURE__ */ jsx24("div", { className: "flex w-full flex-col gap-4 md:flex-row", children: row.map((field) => {
   const span = Math.min(field.columna || 12, 12);
   const offset = field.columnaOffset || 0;
   const isInformationalField = ["informativo", "tituloInformativo"].includes(field.tipo);
-  return /* @__PURE__ */ jsx23(
+  return /* @__PURE__ */ jsx24(
     "div",
     {
       className: `w-full md:w-auto ${isInformationalField ? "md:flex md:items-end" : ""}`,
@@ -1496,14 +1588,18 @@ var FormBuilder = ({
   modoDetalle = false,
   advanced = false,
   notify = () => {
-  }
+  },
+  ruleSteps = [],
+  currentStepId,
+  resolveConditionValue
 }) => {
   const visibleFields = fields.filter((field) => {
     if (!advanced && ADVANCED_FIELD_TYPES.has(field.tipo)) return false;
     if (!modoDetalle && field.soloDashboard) return false;
     if (modoDetalle && DETAIL_HIDDEN_TYPES.has(field.tipo)) return false;
-    return evaluateCondition(field.condiciones, watch, {
+    return evaluateCondition(field.condiciones, resolveConditionValue || ((name) => watch?.(name)), {
       fields,
+      currentStepId,
       ignoredFieldTypes: modoDetalle ? [...DETAIL_HIDDEN_TYPES] : []
     });
   }).sort((first, second) => (first.orden || 0) - (second.orden || 0));
@@ -1519,10 +1615,12 @@ var FormBuilder = ({
     inputTextColor,
     inputBgColor,
     notify,
-    modoDetalle
+    modoDetalle,
+    ruleSteps,
+    currentStepId
   };
   const rows = buildRows(visibleFields);
-  return /* @__PURE__ */ jsx23("div", { className: "form-kit flex w-full flex-col gap-6", children: renderFieldRows(rows, sharedProps, advanced) });
+  return /* @__PURE__ */ jsx24("div", { className: "form-kit flex w-full flex-col gap-6", children: renderFieldRows(rows, sharedProps, advanced) });
 };
 var FormBuilder_default = FormBuilder;
 export {

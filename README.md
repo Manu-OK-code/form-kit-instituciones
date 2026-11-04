@@ -84,6 +84,30 @@ La aplicación debe cargar las fuentes institucionales `Br` que ya utiliza. El
 paquete usa `Br Regular` y cae a Inter/sans-serif mientras una fuente no esté
 disponible.
 
+## Reglas entre steps (0.5.0)
+
+`FormBuilder` admite `ruleSteps`, `currentStepId` y `resolveConditionValue`.
+El editor de reglas recibe `ruleSteps` como un arreglo de
+`{ stepId, label, fields: [{ nombre, label }] }`. El consumidor entrega solo
+el step actual y los anteriores, en el orden del trámite. Cada fila AND/OR
+guarda `{ stepId, campo, operador, valor }`; cambiar de step limpia el campo.
+Las referencias no disponibles se muestran y deben corregirse antes de guardar.
+
+Las reglas antiguas sin `stepId` muestran `currentStepId` sin agregar una
+referencia al abrirlas. `camposDisponibles` sigue soportando el editor de un
+solo step cuando no se proporcionan `ruleSteps`.
+El formato heredado `operador`/`reglas` conserva su grupo y sus reglas al editarlo.
+
+Para evaluar, pasa `resolveConditionValue(fieldName, stepId)` con los valores
+del trámite agrupados por step. Una regla sin `stepId` invoca el resolvedor con
+solo el nombre del campo, en el contexto del step actual. El consumidor resuelve
+los IDs a sus grupos y devuelve `undefined` para una referencia no disponible.
+Los valores actuales deben leerse con `watch(fieldName)` para que los cambios
+del formulario actualicen la visibilidad. Sin resolvedor se conserva el uso de
+`watch` de un solo step. `currentStepId` también delimita las excepciones de
+campos de archivo en modo detalle, evitando confundir campos homónimos de otro step.
+El playground incluye un editor y un campo condicionado por el step anterior.
+
 ## Modo avanzado
 
 Configura `NEXT_PUBLIC_FORM_KIT_ADVANCED=true` en el proyecto que necesita los

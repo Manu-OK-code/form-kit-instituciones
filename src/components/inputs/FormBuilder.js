@@ -135,19 +135,22 @@ const FormBuilder = ({
   fields = [], register, control, errors, isEditing, watch, setValue,
   camposDisponibles = [], labelColor = '#111827', inputTextColor = '#333333',
   inputBgColor = '#F9FAFB', modoDetalle = false, advanced = false, notify = () => {},
+  ruleSteps = [], currentStepId, resolveConditionValue,
 }) => {
   const visibleFields = fields.filter((field) => {
     if (!advanced && ADVANCED_FIELD_TYPES.has(field.tipo)) return false;
     if (!modoDetalle && field.soloDashboard) return false;
     if (modoDetalle && DETAIL_HIDDEN_TYPES.has(field.tipo)) return false;
-    return evaluateCondition(field.condiciones, watch, {
+    return evaluateCondition(field.condiciones, resolveConditionValue || ((name) => watch?.(name)), {
       fields,
+      currentStepId,
       ignoredFieldTypes: modoDetalle ? [...DETAIL_HIDDEN_TYPES] : [],
     });
   }).sort((first, second) => (first.orden || 0) - (second.orden || 0));
   const sharedProps = {
     register, control, errors, watch, setValue, disabled: !isEditing, camposDisponibles,
     labelColor, inputTextColor, inputBgColor, notify, modoDetalle,
+    ruleSteps, currentStepId,
   };
   const rows = buildRows(visibleFields);
 

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormBuilder } from '../../src/index';
+import StepRulesExample from './StepRulesExample';
 
 const INFORMATIONAL_FIELDS = [
   { nombre: 'tituloSinSubtitulo', label: 'Datos de la institución', tipo: 'tituloInformativo', columna: 6, orden: 0 },
@@ -101,7 +102,7 @@ const PlaygroundActions = ({ readOnly, notice, onReset }) => (
 
 const PlaygroundFooter = ({ advanced, readOnly }) => (
   <footer className="mt-10 flex flex-wrap gap-x-5 gap-y-2 border-t border-slate-200 pt-5 text-xs text-slate-500">
-    <span>Versión local: form-kit 0.4.0</span>
+    <span>Versión local: form-kit 0.5.0</span>
     <span>Avanzados: {advanced ? 'activos' : 'inactivos'}</span>
     <span>Modo: {readOnly ? 'solo lectura' : 'edición'}</span>
   </footer>
@@ -151,6 +152,8 @@ const PlaygroundPage = () => {
         <FormSection formProps={formProps} advanced={advanced} readOnly={readOnly} notify={notify} />
         <PlaygroundActions readOnly={readOnly} notice={notice} onReset={resetForm} />
       </form>
+
+      <StepRulesExample readOnly={readOnly} />
 
       <PlaygroundFooter advanced={advanced} readOnly={readOnly} />
     </main>
