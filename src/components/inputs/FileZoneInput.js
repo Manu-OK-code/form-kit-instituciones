@@ -107,6 +107,8 @@ const FileZone = ({ config, register, errors, disabled, watch, setValue, notify 
 
   const { ref: registerRef, ...restRegister } = register(config.nombre, {
     validate: (value) => {
+      if (!config.requerido) return true;
+
       const files = Object.values(value || {});
       return files.length > 0 || 'Debe adjuntar al menos un archivo';
     },
